@@ -1,1 +1,1 @@
-# DiceJump
+# dicejump
