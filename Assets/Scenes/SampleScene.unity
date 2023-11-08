@@ -1857,6 +1857,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8294601173812737489, guid: 375effd19d9674865bf6e0754873b6ed, type: 3}
+      propertyPath: jumpForce
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8294601173812737489, guid: 375effd19d9674865bf6e0754873b6ed, type: 3}
       propertyPath: rotationSpeed
       value: 10
       objectReference: {fileID: 0}
