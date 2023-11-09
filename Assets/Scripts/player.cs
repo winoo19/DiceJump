@@ -23,10 +23,14 @@ public class Player : MonoBehaviour
     // Limits of the game
     private BoxCollider2D gameBorderCollider;
 
+    // Cicrle that indicates the radius of the jump
+    public CircleRenderer circleRenderer;
+
     // Initialization
     private void Start()
     {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
+        circleRenderer = GameObject.Find("Circle").GetComponent<CircleRenderer>();
     }
 
     // Update (once per frame)
@@ -139,6 +143,9 @@ public class Player : MonoBehaviour
 
         // Reroll the dice
         diceNumber = Random.Range(1, 7);
+
+        // Update the circle renderer
+        circleRenderer.ActualizarRadio(diceNumber);
     }
 
     // Check if the movement takes the player outside the game borders
