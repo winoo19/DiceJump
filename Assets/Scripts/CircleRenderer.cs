@@ -5,7 +5,7 @@ public class CircleRenderer : MonoBehaviour
 {
     public int points = 50; // Number of points in the circle
     public float initialRadius = 1.0f; // Initial radius of the circle
-    private float lineWith = 0.1f; // Line width
+    private float lineWith = 0.05f; // Line width
 
     private LineRenderer lineRenderer;
 
@@ -29,7 +29,7 @@ public class CircleRenderer : MonoBehaviour
             float x = Mathf.Sin(angle) * radius;
             float y = Mathf.Cos(angle) * radius;
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
-        
+
         }
 
         // Asegurémonos de que el último punto sea igual al primero para cerrar el círculo

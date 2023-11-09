@@ -1,6 +1,5 @@
 // TODO: Cambiar el sprite del dado según el número de la cara (crear los sprites)
 // TODO: Hacer animación de salto
-// TODO: Círculo de salto
 // TODO: Enemigos
 
 
@@ -9,7 +8,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Movement variables (to tweak so that it feels nice)
-    public float moveSpeed = 0.1f;
+    public float moveSpeed = 0.07f;
     public float jumpForce = 1.2f;
     public float rotationSpeed = 8f;
 
@@ -39,7 +38,7 @@ public class Player : MonoBehaviour
 
     // Update (once per frame)
     private void Update()
-    {   
+    {
         if (hasJumpedRecently && Time.time - timeSinceLastJump > timeBetweenJumps)
         {
             hasJumpedRecently = false;
@@ -137,7 +136,7 @@ public class Player : MonoBehaviour
         float actualTime = Time.time;
 
         if (actualTime - timeSinceLastJump >= timeBetweenJumps)
-        {   
+        {
             // Change tha variable that indicates if the player has jumped recently
             hasJumpedRecently = true;
 
@@ -169,7 +168,7 @@ public class Player : MonoBehaviour
 
             // Change opcaity of the circle renderer
             circleRenderer.ChangeOpacity(0.3f);
-            
+
         }
 
     }
