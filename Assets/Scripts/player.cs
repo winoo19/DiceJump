@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
 
     public int diceNumber = 1; // Number that the dice currently shows
 
+    private float timeBetweenJumps = 1f; // Time between jumps
+    private float timeSinceLastJump = 0f; // Time since the last jump
+    private bool hasJumpedRecently = false; // If the player has jumped recently (meaning that he can't jump again)
+
     private Vector2 moveDirection; // Current direction of the movement
     private Vector2 jumpDirection; // Direction of the jump
     private float currentVelocity; // Current velocity of the rotation (for the smooth rotation)
@@ -35,7 +39,13 @@ public class Player : MonoBehaviour
 
     // Update (once per frame)
     private void Update()
-    {
+    {   
+        if (hasJumpedRecently && Time.time - timeSinceLastJump > timeBetweenJumps)
+        {
+            hasJumpedRecently = false;
+            circleRenderer.ChangeOpacity(1f);
+        }
+
         // Player movement with WASD
         moveDirection = GetMoveDirection();
 
@@ -124,28 +134,44 @@ public class Player : MonoBehaviour
     // Move the player to the position of the jump
     private void Jump()
     {
-        // Calculate the direction of the jump
-        Vector2 jumpDirection = new Vector2(
-            Mathf.Cos(mouseAngle * Mathf.Deg2Rad),
-            Mathf.Sin(mouseAngle * Mathf.Deg2Rad)
-        );
+        float actualTime = Time.time;
+
+        if (actualTime - timeSinceLastJump >= timeBetweenJumps)
+        {   
+            // Change tha variable that indicates if the player has jumped recently
+            hasJumpedRecently = true;
+
+            // Calculate the direction of the jump
+            Vector2 jumpDirection = new Vector2(
+                Mathf.Cos(mouseAngle * Mathf.Deg2Rad),
+                Mathf.Sin(mouseAngle * Mathf.Deg2Rad)
+            );
 
 
-        jumpDirection *= diceNumber * jumpForce;
+            jumpDirection *= diceNumber * jumpForce;
 
-        // Check if the player stays inside the game borders
-        if (!IsInsideBorders(jumpDirection))
-        {
-            jumpDirection = GetMovementInsideBorders(jumpDirection);
+            // Check if the player stays inside the game borders
+            if (!IsInsideBorders(jumpDirection))
+            {
+                jumpDirection = GetMovementInsideBorders(jumpDirection);
+            }
+
+            transform.Translate(jumpDirection, Space.World);
+
+            // Update the time of the last jump
+            timeSinceLastJump = actualTime;
+
+            // Reroll the dice
+            diceNumber = Random.Range(1, 7);
+
+            // Update the circle renderer
+            circleRenderer.ActualizarRadio(diceNumber);
+
+            // Change opcaity of the circle renderer
+            circleRenderer.ChangeOpacity(0.3f);
+            
         }
 
-        transform.Translate(jumpDirection, Space.World);
-
-        // Reroll the dice
-        diceNumber = Random.Range(1, 7);
-
-        // Update the circle renderer
-        circleRenderer.ActualizarRadio(diceNumber);
     }
 
     // Check if the movement takes the player outside the game borders

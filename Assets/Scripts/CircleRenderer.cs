@@ -40,4 +40,15 @@ public class CircleRenderer : MonoBehaviour
         // Asegurémonos de que el último punto sea igual al primero para cerrar el círculo
         lineRenderer.SetPosition(puntos - 1, lineRenderer.GetPosition(0));
     }
+
+    // Change the opacity of the line depending on the time since
+    // the last jump, to indicate that the player can jump again
+    public void ChangeOpacity(float opacity)
+    {
+        Color c = lineRenderer.startColor;
+        c.a = opacity;
+
+        lineRenderer.startColor = c;
+        lineRenderer.endColor = c;
+    }
 }
