@@ -165,7 +165,7 @@ public class Player : MonoBehaviour
             diceNumber = Random.Range(1, 7);
 
             // Update the circle renderer
-            circleRenderer.ActualizarRadio(diceNumber);
+            circleRenderer.UpdateRadius(diceNumber);
 
             // Change opcaity of the circle renderer
             circleRenderer.ChangeOpacity(0.3f);
