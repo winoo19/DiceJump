@@ -1,6 +1,6 @@
 // TODO: Cambiar el sprite del dado según el número de la cara (crear los sprites)
-// TODO: Hacer animación de salto
 // TODO: Enemigos
+// TODO: Mejorar animación de salto
 
 
 using UnityEngine;
@@ -12,65 +12,105 @@ public class Player : MonoBehaviour
     public float jumpForce = 1.2f;
     public float rotationSpeed = 8f;
 
-    public int diceNumber = 1; // Number that the dice currently shows
+    public int diceNumber = 1;
 
-    private float timeBetweenJumps = 1f; // Time between jumps
-    private float timeSinceLastJump = 0f; // Time since the last jump
+    private float timeBetweenJumps = 1f;
+    private float timeSinceLastJump = 0f;
     private bool hasJumpedRecently = false; // If the player has jumped recently (meaning that he can't jump again)
 
+    // Current movement variables
     private Vector2 moveDirection; // Current direction of the movement
     private Vector2 jumpDirection; // Direction of the jump
     private float currentVelocity; // Current velocity of the rotation (for the smooth rotation)
     private float mouseAngle; // Angle of the vector from the player to the mouse
 
-    // Limits of the game
-    private BoxCollider2D gameBorderCollider;
-
-    // Cicrle that indicates the radius of the jump
-    public CircleRenderer circleRenderer;
+    // Components
+    private BoxCollider2D gameBorderCollider; // Limits of the game
+    private CircleRenderer circleRenderer; // Circle that indicates the radius of the jump
+    public GameObject jumpAnimationPrefab; // Jump animationk prefab
+    private GameObject jumpAnimation; // Instance of the jump animation
+    private SpriteRenderer[] spriteRenderers; // Sprite renderers of the player and its children
+    private LineRenderer[] lineRenderers; // Line renderers of the player and its children
 
     // Initialization
     private void Start()
     {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
         circleRenderer = GameObject.Find("Circle").GetComponent<CircleRenderer>();
+
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        lineRenderers = GetComponentsInChildren<LineRenderer>();
     }
 
     // Update (once per frame)
     private void Update()
     {
-        if (hasJumpedRecently && Time.time - timeSinceLastJump > timeBetweenJumps)
+        // We only want the player to move when the jump animation is not playing
+        if (jumpAnimation == null)
         {
-            hasJumpedRecently = false;
-            circleRenderer.ChangeOpacity(1f);
-        }
+            if (spriteRenderers[0].enabled == false) // If the jump animation just ended
+            {
+                // Enable the sprite of the player and all its children
+                foreach (SpriteRenderer sr in spriteRenderers)
+                {
+                    sr.enabled = true;
+                }
+                foreach (LineRenderer lr in lineRenderers)
+                {
+                    lr.enabled = true;
+                }
 
-        // Player movement with WASD
-        moveDirection = GetMoveDirection();
+                // Update the time of the last jump
+                timeSinceLastJump = Time.time;
 
-        // Player rotation
-        mouseAngle = GetMouseAngle();
+                // Reroll the dice
+                diceNumber = Random.Range(1, 7);
 
-        // Player jump
-        if (Input.GetMouseButtonDown(0))
-        {
-            Jump();
+                // Update the radius of the circle renderer
+                circleRenderer.UpdateRadius(diceNumber);
+
+                // Change opacity of the circle renderer
+                circleRenderer.ChangeOpacity(0.3f);
+            }
+
+            // If it can jump, we show it by changing the opacity of the circle
+            if (hasJumpedRecently && Time.time - timeSinceLastJump > timeBetweenJumps)
+            {
+                hasJumpedRecently = false;
+                circleRenderer.ChangeOpacity(1f);
+            }
+
+            // Player movement with WASD
+            moveDirection = GetMoveDirection();
+
+            // Player rotation
+            mouseAngle = GetMouseAngle();
+
+            // Player jump
+            if (Input.GetMouseButtonDown(0))
+            {
+                Jump();
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        // Move the player in the correcto direction independent of the rotation
-        transform.Translate(moveDirection, Space.World);
+        // We only want the player to move when the jump animation is not playing
+        if (jumpAnimation == null && spriteRenderers[0].enabled == true)
+        {
+            // Move the player in the correct direction independent of the rotation
+            transform.Translate(moveDirection, Space.World);
 
-        // Rotate the player to look at the mouse
-        float smoothAngle = Mathf.SmoothDampAngle(
-            transform.rotation.eulerAngles.z,
-            mouseAngle,
-            ref currentVelocity,
-            1.0f / rotationSpeed
-        );
-        transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
+            // Rotate the player to look at the mouse
+            float smoothAngle = Mathf.SmoothDampAngle(
+                transform.rotation.eulerAngles.z,
+                mouseAngle,
+                ref currentVelocity,
+                1.0f / rotationSpeed
+            );
+            transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
+        }
     }
 
     // Get the direction of the movement
@@ -130,14 +170,14 @@ public class Player : MonoBehaviour
         return Mathf.Atan2(mouseDirection.y, mouseDirection.x) * Mathf.Rad2Deg;
     }
 
-    // Move the player to the position of the jump
+    // Play jump animation
     private void Jump()
     {
         float actualTime = Time.time;
 
         if (actualTime - timeSinceLastJump >= timeBetweenJumps)
         {
-            // Change tha variable that indicates if the player has jumped recently
+            // Change the variable that indicates if the player has jumped recently
             hasJumpedRecently = true;
 
             // Calculate the direction of the jump
@@ -155,20 +195,23 @@ public class Player : MonoBehaviour
                 jumpDirection = GetMovementInsideBorders(jumpDirection);
             }
 
+            // Disable the sprite of the player and all its children
+            foreach (SpriteRenderer sr in spriteRenderers)
+            {
+                sr.enabled = false;
+            }
+            foreach (LineRenderer lr in lineRenderers)
+            {
+                lr.enabled = false;
+            }
+
+            // Play the jump animation
+            jumpAnimation = Instantiate(jumpAnimationPrefab, transform.position, Quaternion.identity);
+            Rotator jumpAnimationScript = jumpAnimation.GetComponent<Rotator>();
+            jumpAnimationScript.StartAnimation(transform.position, transform.position + (Vector3)jumpDirection);
+
+            // Move player to the end of the jump
             transform.Translate(jumpDirection, Space.World);
-
-            // Update the time of the last jump
-            timeSinceLastJump = actualTime;
-
-            // Reroll the dice
-            diceNumber = Random.Range(1, 7);
-
-            // Update the circle renderer
-            circleRenderer.UpdateRadius(diceNumber);
-
-            // Change opcaity of the circle renderer
-            circleRenderer.ChangeOpacity(0.3f);
-
         }
 
     }
