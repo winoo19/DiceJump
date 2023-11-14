@@ -9,8 +9,9 @@ public class Rotator : MonoBehaviour
     public float jumpHeight = 1f;
     public float jumpDuration = 0.6f;
 
-    public Vector3 startPoint;
-    public Vector3 endPoint;
+    private Vector3 startPoint;
+    private Vector3 endPoint;
+    private Vector3 direction;
 
     private float jumpTimer = 0f; // Time taken since jump started
 
@@ -27,11 +28,17 @@ public class Rotator : MonoBehaviour
     {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+
+        // Make it look in the direction of the movement
+        direction = (endPoint - startPoint).normalized;
+        transform.rotation = Quaternion.LookRotation(direction);
     }
 
     private void JumpAnimation()
     {
-        transform.Rotate(rotationSpeed, 0, 0);
+        // Rotate
+        transform.Rotate(Vector3.up, rotationSpeed);
+
         jumpTimer += Time.deltaTime;
 
         if (jumpTimer < jumpDuration)

@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public float jumpForce = 1.2f;
     public float rotationSpeed = 8f;
 
-    public int diceNumber = 1;
+    private int diceNumber;
 
     private float timeBetweenJumps = 1f;
     private float timeSinceLastJump = 0f;
@@ -40,6 +40,10 @@ public class Player : MonoBehaviour
 
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         lineRenderers = GetComponentsInChildren<LineRenderer>();
+
+
+        diceNumber = Random.Range(1, 7); // Initial dice number
+        circleRenderer.UpdateRadius(diceNumber);
     }
 
     // Update (once per frame)

@@ -4,24 +4,21 @@ using UnityEngine;
 public class CircleRenderer : MonoBehaviour
 {
     public int points = 50; // Number of points in the circle
-    public float initialRadius = 1.0f; // Initial radius of the circle
     private float lineWith = 0.05f; // Line width
 
     private LineRenderer lineRenderer;
 
-    void Start()
+    void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = points;
         lineRenderer.useWorldSpace = false;
         lineRenderer.startWidth = lineWith;
         lineRenderer.endWidth = lineWith;
-
-        UpdateRadius(initialRadius);
     }
 
     // Update the radius of the circle
-    public void UpdateRadius(float radius)
+    public void UpdateRadius(int radius)
     {
         for (int i = 0; i < points; i++)
         {
@@ -29,7 +26,6 @@ public class CircleRenderer : MonoBehaviour
             float x = Mathf.Sin(angle) * radius;
             float y = Mathf.Cos(angle) * radius;
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
-
         }
 
         // Asegurémonos de que el último punto sea igual al primero para cerrar el círculo
