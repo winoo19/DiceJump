@@ -6,7 +6,13 @@
 using UnityEngine;
 
 public class Player : MonoBehaviour
-{
+{   
+    // ADDITION: ====================
+    public delegate void DiceLanded();
+    public static event DiceLanded OnDiceLanded;
+    // =============================
+
+
     // Movement variables (to tweak so that it feels nice)
     public float moveSpeed = 0.07f;
     public float jumpForce = 1.2f;
@@ -94,6 +100,7 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Jump();
+                SendLandEvent();
             }
         }
     }
@@ -216,9 +223,23 @@ public class Player : MonoBehaviour
 
             // Move player to the end of the jump
             transform.Translate(jumpDirection, Space.World);
+
         }
 
     }
+
+    // Addition ===============================================
+    private void SendLandEvent()
+    {
+        // ADDITION ========================================
+        // After the jump animation or landing, call the method that indicates the dice has landed
+        if (OnDiceLanded != null)
+        {
+            OnDiceLanded(); // Trigger the event indicating the dice has landed
+        }
+        // =================================================
+    }
+    // =======================================================
 
     // Check if the movement takes the player outside the game borders
     private bool IsInsideBorders(Vector2 movement)

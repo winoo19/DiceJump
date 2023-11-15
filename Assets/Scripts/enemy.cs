@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float movementSpeed = 3f;
+    private float movementSpeed = 1f;
 
     private Transform playerTransform; // Reference to the player's transform
 
