@@ -1,5 +1,39 @@
 using UnityEngine;
 
+
+public class GameManager : MonoBehaviour
+{
+    private void OnEnable()
+    {
+        Player.OnDiceLanded += CheckEnemyCollisions;
+    }
+
+    private void OnDisable()
+    {
+        Player.OnDiceLanded -= CheckEnemyCollisions;
+    }
+
+    private void CheckEnemyCollisions()
+    {
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(FindObjectOfType<Player>().transform.position, new Vector2(1f, 1f), 0f);
+
+        foreach (Collider2D collider in colliders)
+        {
+            Enemy enemy = collider.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                Debug.Log("Enemy destroyed!");
+                Destroy(enemy.gameObject);
+            }
+        }
+    }
+}
+
+
+
+// Opcion sin colliders
+/*
 public class GameManager : MonoBehaviour
 {
 
@@ -24,41 +58,7 @@ public class GameManager : MonoBehaviour
             if (Vector3.Distance(enemy.transform.position, player.transform.position) < 1f) // Adjust the distance as needed
             {   // Añado un retardo antes de eliminarlo
                 Debug.Log("Enemy destroyed!");
-                Destroy(enemy.gameObject, 0.7f); // Destroy the enemy
-            }
-        }
-    }
-}
-
-
-/*
-using UnityEngine;
-
-public class GameManager : MonoBehaviour
-{
-    private void OnEnable()
-    {
-        Player.OnDiceLanded += CheckDiceCollision;
-    }
-
-    private void OnDisable()
-    {
-        Player.OnDiceLanded -= CheckDiceCollision;
-    }
-
-    private void CheckDiceCollision()
-    {
-        // Check for enemies under the dice's landing position
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, 1f);
-
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.CompareTag("Enemy"))
-            {   
-                // Wait a bit before destroying the enemy
-                Destroy(collider.gameObject, 0.5f);
-                // Add any other logic here related to enemy destruction or game updates
-                Debug.Log("Enemy destroyed!");
+                Destroy(enemy.gameObject); // Destroy the enemy
             }
         }
     }

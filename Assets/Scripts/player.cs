@@ -81,6 +81,9 @@ public class Player : MonoBehaviour
 
                 // Change opacity of the circle renderer
                 circleRenderer.ChangeOpacity(0.3f);
+
+                // ADDITION: ====================
+                SendLandEvent();
             }
 
             // If it can jump, we show it by changing the opacity of the circle
@@ -100,7 +103,6 @@ public class Player : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Jump();
-                SendLandEvent();
             }
         }
     }
