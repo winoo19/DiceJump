@@ -1,12 +1,24 @@
+// TODO Interrogación antes de que aparezcan
+// TODO Tipos de enemigos
+
+
 using UnityEngine;
+using System.Collections.Generic;
+
 
 public class Enemy : MonoBehaviour
 {
-    private float movementSpeed = 1f;
+    private float movementSpeed = 0.02f;
+    private float bulletFrequency = 1f; // How often the enemy shoots (seconds)
+
+    private float timeSinceLastBullet = 0f;
+
+    private Vector3 directionToPlayer;
 
     private Transform playerTransform; // Reference to the player's transform
+    public GameObject bulletPrefab; // Prefab of the bullet to shoot
 
-    void Start()
+    private void Start()
     {
         GameObject player = GameObject.Find("Player"); // Find the GameObject representing the dice
         if (player != null)
@@ -19,16 +31,35 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
         if (playerTransform != null)
         {
             // Calculate the direction towards the dice/player
-            Vector3 directionToPlayer = (playerTransform.position - transform.position).normalized;
+            directionToPlayer = (playerTransform.position - transform.position).normalized;
 
-            // Move the enemy towards the dice/player
-            transform.Translate(directionToPlayer * movementSpeed * Time.deltaTime);
+        }
+        if (timeSinceLastBullet >= bulletFrequency)
+        {
+            Shoot();
+            timeSinceLastBullet = 0f;
+        }
+        else
+        {
+            timeSinceLastBullet += Time.deltaTime;
         }
     }
-}
 
+    private void FixedUpdate()
+    {
+        // Move the enemy towards the dice/player
+        transform.Translate(directionToPlayer * movementSpeed);
+    }
+
+    private void Shoot()
+    {
+        // Instantiate a bullet prefab at the enemy's position
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bullet.GetComponent<bulletMovement>().SetDirection(directionToPlayer);
+    }
+}

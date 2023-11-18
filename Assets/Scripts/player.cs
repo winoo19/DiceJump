@@ -6,7 +6,7 @@
 using UnityEngine;
 
 public class Player : MonoBehaviour
-{   
+{
     // ADDITION: ====================
     public delegate void DiceLanded();
     public static event DiceLanded OnDiceLanded;
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     private BoxCollider2D gameBorderCollider; // Limits of the game
     private CircleRenderer circleRenderer; // Circle that indicates the radius of the jump
     public GameObject jumpAnimationPrefab; // Jump animationk prefab
-    private GameObject jumpAnimation; // Instance of the jump animation
+    public GameObject jumpAnimation; // Instance of the jump animation
     private SpriteRenderer[] spriteRenderers; // Sprite renderers of the player and its children
     private LineRenderer[] lineRenderers; // Line renderers of the player and its children
 
@@ -60,6 +60,9 @@ public class Player : MonoBehaviour
         {
             if (spriteRenderers[0].enabled == false) // If the jump animation just ended
             {
+                // ADDITION: ====================
+                SendLandEvent();
+
                 // Enable the sprite of the player and all its children
                 foreach (SpriteRenderer sr in spriteRenderers)
                 {
@@ -81,9 +84,6 @@ public class Player : MonoBehaviour
 
                 // Change opacity of the circle renderer
                 circleRenderer.ChangeOpacity(0.3f);
-
-                // ADDITION: ====================
-                SendLandEvent();
             }
 
             // If it can jump, we show it by changing the opacity of the circle

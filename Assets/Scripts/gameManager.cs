@@ -1,30 +1,91 @@
+// TODO vidas
+// TODO perder
+// TODO Puntuacion
+
+
 using UnityEngine;
 
 
 public class GameManager : MonoBehaviour
 {
+    private Player player;
+    public GameObject playerPrefab;
+
+    private void Start()
+    {
+        player = FindObjectOfType<Player>();
+    }
+
     private void OnEnable()
     {
-        Player.OnDiceLanded += CheckEnemyCollisions;
+        Player.OnDiceLanded += DestroyJumpedEnemies;
     }
 
     private void OnDisable()
     {
-        Player.OnDiceLanded -= CheckEnemyCollisions;
+        Player.OnDiceLanded -= DestroyJumpedEnemies;
     }
 
-    private void CheckEnemyCollisions()
+    private void Update()
     {
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(FindObjectOfType<Player>().transform.position, new Vector2(1f, 1f), 0f);
+        if (IsOnEnemy())
+        {
+            // Restart();
+            Debug.Log("Game Over!");
+        }
+    }
+
+    private void Restart()
+    {
+        // Find objects with the Enemy tag
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        // Destroy all enemies
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+
+        // Destroy the player and instantiate a new one
+        Destroy(player);
+        player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
+    }
+
+    private bool IsOnEnemy()
+    {
+        if (player.jumpAnimation != null)
+        {
+            return false;
+        }
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+            player.transform.position,
+            player.GetComponent<BoxCollider2D>().size,
+            0f);
 
         foreach (Collider2D collider in colliders)
         {
-            Enemy enemy = collider.GetComponent<Enemy>();
-
-            if (enemy != null)
+            if (collider.CompareTag("Enemy"))
             {
-                Debug.Log("Enemy destroyed!");
-                Destroy(enemy.gameObject);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void DestroyJumpedEnemies()
+    {
+        // Get all colliders within a box around the player's position
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+            player.transform.position,
+            player.GetComponent<BoxCollider2D>().size,
+            0f);
+
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Enemy"))
+            {
+                // Destroy the GameObject associated with the collider
+                Destroy(collider.gameObject);
             }
         }
     }
