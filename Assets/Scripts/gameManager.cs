@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
         if (IsOnEnemy())
         {
             // Restart();
-            Debug.Log("Game Over!");
+            //Debug.Log("Game Over!");
         }
     }
 
@@ -90,38 +90,3 @@ public class GameManager : MonoBehaviour
         }
     }
 }
-
-
-
-// Opcion sin colliders
-/*
-public class GameManager : MonoBehaviour
-{
-
-    private void OnEnable()
-    {
-        Player.OnDiceLanded += CheckEnemyPositions;
-    }
-
-    private void OnDisable()
-    {
-        Player.OnDiceLanded -= CheckEnemyPositions;
-    }
-
-    private void CheckEnemyPositions()
-    {
-        Enemy[] enemies = FindObjectsOfType<Enemy>(); // Get all Enemy components in the scene
-        Player player = FindObjectOfType<Player>(); // Get the Player component in the scene
-
-        foreach (Enemy enemy in enemies)
-        {
-            // Check if the enemy's position matches the dice's landed position
-            if (Vector3.Distance(enemy.transform.position, player.transform.position) < 1f) // Adjust the distance as needed
-            {   // Añado un retardo antes de eliminarlo
-                Debug.Log("Enemy destroyed!");
-                Destroy(enemy.gameObject); // Destroy the enemy
-            }
-        }
-    }
-}
-*/

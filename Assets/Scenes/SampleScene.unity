@@ -499,8 +499,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3653677524685407278, guid: c6c1ba36f69c74b718a2f6bc3cc40685, type: 3}
+      propertyPath: m_TagString
+      value: GameBorder
+      objectReference: {fileID: 0}
     - target: {fileID: 8608983397675792572, guid: c6c1ba36f69c74b718a2f6bc3cc40685, type: 3}
       propertyPath: m_Size.x
+      value: 17.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8608983397675792572, guid: c6c1ba36f69c74b718a2f6bc3cc40685, type: 3}
+      propertyPath: m_Size.y
       value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
