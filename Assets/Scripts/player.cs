@@ -7,6 +7,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // ADDITION: ====================
+    public delegate void DiceLanded();
+    public static event DiceLanded OnDiceLanded;
+    // =============================
+
+
     // Movement variables (to tweak so that it feels nice)
     public float moveSpeed = 0.07f;
     public float jumpForce = 1.2f;
@@ -28,7 +34,7 @@ public class Player : MonoBehaviour
     private BoxCollider2D gameBorderCollider; // Limits of the game
     private CircleRenderer circleRenderer; // Circle that indicates the radius of the jump
     public GameObject jumpAnimationPrefab; // Jump animationk prefab
-    private GameObject jumpAnimation; // Instance of the jump animation
+    public GameObject jumpAnimation; // Instance of the jump animation
     private SpriteRenderer[] spriteRenderers; // Sprite renderers of the player and its children
     private LineRenderer[] lineRenderers; // Line renderers of the player and its children
 
@@ -54,6 +60,9 @@ public class Player : MonoBehaviour
         {
             if (spriteRenderers[0].enabled == false) // If the jump animation just ended
             {
+                // ADDITION: ====================
+                SendLandEvent();
+
                 // Enable the sprite of the player and all its children
                 foreach (SpriteRenderer sr in spriteRenderers)
                 {
@@ -216,9 +225,23 @@ public class Player : MonoBehaviour
 
             // Move player to the end of the jump
             transform.Translate(jumpDirection, Space.World);
+
         }
 
     }
+
+    // Addition ===============================================
+    private void SendLandEvent()
+    {
+        // ADDITION ========================================
+        // After the jump animation or landing, call the method that indicates the dice has landed
+        if (OnDiceLanded != null)
+        {
+            OnDiceLanded(); // Trigger the event indicating the dice has landed
+        }
+        // =================================================
+    }
+    // =======================================================
 
     // Check if the movement takes the player outside the game borders
     private bool IsInsideBorders(Vector2 movement)
