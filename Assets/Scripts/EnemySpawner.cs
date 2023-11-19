@@ -2,42 +2,59 @@ using UnityEngine;
 
 public class EnemigoSpawner : MonoBehaviour
 {   
-    // Now instead of spawning a single enemy, there are enemy prefab variants: Enemy, Enemy1 Variant...
-    // We can use a list of prefabs to spawn a random enemy variant
-    // public GameObject enemyPrefab;
-    public GameObject[] enemyPrefabs;
+    public GameObject[] enemyPrefabs; // Lista de prefabs de enemigos
+    public GameObject spawnEffectPrefab; // Prefab del efecto de aparición
 
-    // public GameObject enemyPrefab;
-    public float initialTime = 5f; // Tiempo inicial entre cada spawneo
-    public float minTime = 5f; // Tiempo mínimo entre cada spawneo
-    public float timeReduction = 0.1f; // Cuánto se reduce el tiempo entre cada spawneo
+    public float spawnDelay = 1f; // Tiempo de demora antes de que aparezca el enemigo
+
+    private bool isSpawningEffect = false;
+    private float spawnEffectTimer = 0f;
+    private GameObject currentSpawnEffect;
 
     private float timeOfNextSpawn;
+    private Vector3 spawnPosition;
 
     private void Start()
     {   
-        timeOfNextSpawn = initialTime;
+        timeOfNextSpawn = spawnDelay;
     }
 
     private void Update()
     {
-        // Contador para manejar la generación periódica de enemigos
         timeOfNextSpawn -= Time.deltaTime;
-        if (timeOfNextSpawn <= 0)
+
+        if (!isSpawningEffect && timeOfNextSpawn <= 0)
         {
-            SpawnEnemigo();
-            timeOfNextSpawn = Mathf.Max(minTime, timeOfNextSpawn - timeReduction);
+            SpawnEffect();
+        }
+
+        if (isSpawningEffect)
+        {
+            spawnEffectTimer += Time.deltaTime;
+
+            if (spawnEffectTimer >= 1f)
+            {
+                Destroy(currentSpawnEffect);
+                SpawnEnemy();
+                isSpawningEffect = false;
+            }
         }
     }
 
-    // Método para generar un nuevo enemigo
-    private void SpawnEnemigo()
-    {   
-        // Elegimos un enemigo aleatorio de la lista de prefabs
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
-        // spawneamos en una posicion aleatoria dentro de la pantalla
+    private void SpawnEffect()
+    {
         Vector3 randomPos = Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, 0));
-        randomPos.z = 0; // Asegurarse de que el enemigo esté en el plano XY
-        Instantiate(enemyPrefab, randomPos, Quaternion.identity);
+        randomPos.z = 0; 
+
+        currentSpawnEffect = Instantiate(spawnEffectPrefab, randomPos, Quaternion.identity);
+        isSpawningEffect = true;
+        spawnEffectTimer = 0f;
+    }
+
+    private void SpawnEnemy()
+    {   
+        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+
+        Instantiate(enemyPrefab, currentSpawnEffect.transform.position, Quaternion.identity);
     }
 }
