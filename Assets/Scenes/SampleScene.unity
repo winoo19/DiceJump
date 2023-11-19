@@ -793,7 +793,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61b6105ee0e434676bcd60f53eec4193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 8606734150317079642, guid: db09f2ce372094506b79ccb15f98c7ce, type: 3}
+  enemyPrefabs:
+  - {fileID: 3750774461155319815, guid: 76666982619364bed9d6a928b9956f17, type: 3}
+  - {fileID: 8638589630425155556, guid: 3e2c70b6f48d34766a50ca709f1496fb, type: 3}
+  - {fileID: 3750774461155319815, guid: 6dbe6a7cfa7c040d68a16bcd71a1d5cc, type: 3}
   initialTime: 5
   minTime: 1
   timeReduction: 0.1

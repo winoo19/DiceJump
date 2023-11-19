@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class bulletMovement : MonoBehaviour
 {
-    private float bulletMovementSpeed = 0.05f;
+    private float bulletMovementSpeed = 0.1f;
     private Vector3 direction;
 
     private BoxCollider2D gameBorderCollider; // Limits of the game
@@ -21,6 +21,12 @@ public class bulletMovement : MonoBehaviour
     {
         // Set the direction of the bullet
         this.direction = direction;
+    }
+
+    public void SetBulletMovementSpeed(float bulletMovementSpeed)
+    {
+        // Set the speed of the bullet
+        this.bulletMovementSpeed = bulletMovementSpeed;
     }
 
     private void FixedUpdate()

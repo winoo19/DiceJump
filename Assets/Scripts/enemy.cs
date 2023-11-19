@@ -8,14 +8,16 @@ using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {
-    private float movementSpeed = 0.02f;
-    private float bulletFrequency = 1f; // How often the enemy shoots (seconds)
+    protected float movementSpeed = 0.02f;
+    protected float bulletFrequency = 5f; // How often the enemy shoots (seconds)
 
-    private float timeSinceLastBullet = 0f;
+    protected float timeSinceLastBullet = 0f;
 
-    private Vector3 directionToPlayer;
+    protected Vector3 directionToPlayer;
+    protected Transform playerTransform; // Reference to the player's transform
 
-    private Transform playerTransform; // Reference to the player's transform
+    // Prefabs of the bullets to shoot:
+    protected List<GameObject> bulletPrefabs = new List<GameObject>(); 
     public GameObject bulletPrefab; // Prefab of the bullet to shoot
 
     private void Start()
@@ -31,7 +33,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (playerTransform != null)
         {
@@ -50,16 +52,23 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         // Move the enemy towards the dice/player
         transform.Translate(directionToPlayer * movementSpeed);
+
+        // Rotate the enemy towards the dice/player
+        if (directionToPlayer != Vector3.zero)
+        {   
+            // Calculate the rotation to look at the dice/player
+            Quaternion newRotation = Quaternion.LookRotation(Vector3.forward, directionToPlayer);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 10f);
+        }
     }
 
-    private void Shoot()
+    // Each type of enemy will have a different Shoot() method
+    protected virtual void Shoot()
     {
-        // Instantiate a bullet prefab at the enemy's position
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        bullet.GetComponent<bulletMovement>().SetDirection(directionToPlayer);
+
     }
 }
