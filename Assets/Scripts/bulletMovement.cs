@@ -35,18 +35,17 @@ public class bulletMovement : MonoBehaviour
         transform.Translate(direction * bulletMovementSpeed);
 
         // Destroy the bullet if it reaches the border of the game
-        destroyBullet();
+        CheckIfOutOfBounds();
     }
 
     // when the bullet reaches the border of the game, destroy it
-    private void destroyBullet()
+    private void CheckIfOutOfBounds()
     {
-        if (transform.position.x < gameBorderCollider.bounds.min.x || 
-            transform.position.x > gameBorderCollider.bounds.max.x || 
-            transform.position.y < gameBorderCollider.bounds.min.y || 
+        if (transform.position.x < gameBorderCollider.bounds.min.x ||
+            transform.position.x > gameBorderCollider.bounds.max.x ||
+            transform.position.y < gameBorderCollider.bounds.min.y ||
             transform.position.y > gameBorderCollider.bounds.max.y)
         {
-            Debug.Log("Bullet Destroyed");
             Destroy(gameObject);
         }
     }

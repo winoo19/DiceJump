@@ -13,11 +13,9 @@ public class Enemy : MonoBehaviour
 
     protected float timeSinceLastBullet = 0f;
 
-    protected Vector3 directionToPlayer;
+    protected Vector3 moveDirection;
     protected Transform playerTransform; // Reference to the player's transform
 
-    // Prefabs of the bullets to shoot:
-    protected List<GameObject> bulletPrefabs = new List<GameObject>(); 
     public GameObject bulletPrefab; // Prefab of the bullet to shoot
 
     private void Start()
@@ -33,13 +31,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void Update()
+    private void Update()
     {
         if (playerTransform != null)
         {
             // Calculate the direction towards the dice/player
-            directionToPlayer = (playerTransform.position - transform.position).normalized;
-
+            moveDirection = GetMoveDirection();
         }
         if (timeSinceLastBullet >= bulletFrequency)
         {
@@ -52,23 +49,29 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual void FixedUpdate()
+    private void FixedUpdate()
     {
-        // Move the enemy towards the dice/player
-        transform.Translate(directionToPlayer * movementSpeed);
+        // Move the enemy
+        transform.Translate(moveDirection * movementSpeed);
 
-        // Rotate the enemy towards the dice/player
-        if (directionToPlayer != Vector3.zero)
-        {   
-            // Calculate the rotation to look at the dice/player
-            Quaternion newRotation = Quaternion.LookRotation(Vector3.forward, directionToPlayer);
+        // Rotate the enemy in its move direction
+        if (moveDirection != Vector3.zero)
+        {
+            Quaternion newRotation = Quaternion.LookRotation(Vector3.forward, moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 10f);
         }
     }
 
-    // Each type of enemy will have a different Shoot() method
+    protected virtual Vector3 GetMoveDirection()
+    {
+        // By default move towards the dice/player
+        return (playerTransform.position - transform.position).normalized;
+    }
+
     protected virtual void Shoot()
     {
-
+        // By default shoot towards the player
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bullet.GetComponent<bulletMovement>().SetDirection(moveDirection);
     }
 }
