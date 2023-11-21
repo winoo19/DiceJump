@@ -5,56 +5,82 @@ public class EnemigoSpawner : MonoBehaviour
     public GameObject[] enemyPrefabs; // Lista de prefabs de enemigos
     public GameObject spawnEffectPrefab; // Prefab del efecto de aparición
 
-    public float spawnDelay = 1f; // Tiempo de demora antes de que aparezca el enemigo
+    private int waveCount = 0; // Contador de oleadas
+    private int enemiesPerWave = 3; // Cantidad de enemigos por oleada inicial
+    private float initialSpawnDelay = 10f; // Tiempo inicial entre oleadas
+    private float spawnDelayDecrease = 1f; // Reducción de tiempo entre oleadas
+    private float minSpawnDelay = 5f; // Tiempo mínimo entre oleadas
 
-    private bool isSpawningEffect = false;
-    private float spawnEffectTimer = 0f;
-    private GameObject currentSpawnEffect;
-
-    private float timeOfNextSpawn;
-    private Vector3 spawnPosition;
+    private float timeOfNextWave;
+    private bool isSpawningWave = false;
+    private GameObject[] currentSpawnEffects; // Lista de efectos de aparición de enemigos
 
     private void Start()
     {   
-        timeOfNextSpawn = spawnDelay;
+        timeOfNextWave = 0f; // Comenzar con la primera oleada inmediatamente
     }
 
     private void Update()
     {
-        timeOfNextSpawn -= Time.deltaTime;
+        timeOfNextWave -= Time.deltaTime;
 
-        if (!isSpawningEffect && timeOfNextSpawn <= 0)
+        if (!isSpawningWave && timeOfNextWave <= 0)
         {
-            SpawnEffect();
-        }
-
-        if (isSpawningEffect)
-        {
-            spawnEffectTimer += Time.deltaTime;
-
-            if (spawnEffectTimer >= 1f)
-            {
-                Destroy(currentSpawnEffect);
-                SpawnEnemy();
-                isSpawningEffect = false;
-            }
+            SpawnWave();
         }
     }
 
-    private void SpawnEffect()
+    private void SpawnWave()
     {
-        Vector3 randomPos = Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, 0));
-        randomPos.z = 0; 
+        isSpawningWave = true;
+        currentSpawnEffects = new GameObject[enemiesPerWave];
 
-        currentSpawnEffect = Instantiate(spawnEffectPrefab, randomPos, Quaternion.identity);
-        isSpawningEffect = true;
-        spawnEffectTimer = 0f;
+        // Generar y almacenar los tres efectos de aparición al mismo tiempo
+        for (int i = 0; i < enemiesPerWave; i++)
+        {
+            Vector3 randomPos = Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, 0));
+            randomPos.z = 0;
+
+            currentSpawnEffects[i] = Instantiate(spawnEffectPrefab, randomPos, Quaternion.identity);
+        }
+
+        StartCoroutine(SpawnEnemiesWithDelay());
+        UpdateWaveProperties();
     }
 
-    private void SpawnEnemy()
-    {   
-        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+    private System.Collections.IEnumerator SpawnEnemiesWithDelay()
+    {
+        yield return new WaitForSeconds(1f); // Esperar un segundo antes de spawneando los enemigos
 
-        Instantiate(enemyPrefab, currentSpawnEffect.transform.position, Quaternion.identity);
+        foreach (GameObject effect in currentSpawnEffects)
+        {
+            SpawnEnemy(effect);
+        }
+
+        foreach (GameObject effect in currentSpawnEffects)
+        {
+            Destroy(effect); // Eliminar los efectos de aparición después de generar los enemigos
+        }
+
+        isSpawningWave = false;
+    }
+
+    private void SpawnEnemy(GameObject spawnEffect)
+    {
+        GameObject enemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        Instantiate(enemyPrefab, spawnEffect.transform.position, Quaternion.identity);
+    }
+
+    private void UpdateWaveProperties()
+    {
+        waveCount++;
+
+        if (waveCount % 5 == 0) // Cada 5 oleadas aumenta la cantidad de enemigos por oleada
+        {
+            enemiesPerWave += 1;
+        }
+
+        initialSpawnDelay = Mathf.Max(initialSpawnDelay - spawnDelayDecrease, minSpawnDelay); // Reduce el tiempo entre oleadas
+        timeOfNextWave = initialSpawnDelay;
     }
 }
