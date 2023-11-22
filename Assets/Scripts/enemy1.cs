@@ -19,7 +19,7 @@ public class EnemyType1 : Enemy
         {
             // Calculate the direction away from the player
             Vector3 runDirection = transform.position - playerTransform.position;
-            transform.Translate(runDirection.normalized * movementSpeed);
+            transform.Translate(-moveDirection * movementSpeed);
         }
     }
 }
