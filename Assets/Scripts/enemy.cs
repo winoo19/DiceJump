@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 
 public class Enemy : MonoBehaviour
-{
+{   
     protected float movementSpeed = 0.02f;
     protected float bulletFrequency = 5f; // How often the enemy shoots (seconds)
 
@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 
     protected Vector3 moveDirection;
     protected Transform playerTransform; // Reference to the player's transform
+    protected float minDistanceToPlayer = 2f;
 
     public GameObject bulletPrefab; // Prefab of the bullet to shoot
 
@@ -51,6 +52,22 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Move();
+    }
+
+    protected Vector3 GetVectorToPlayer()
+    {
+        return playerTransform.position - transform.position;
+    }
+
+    protected virtual Vector3 GetMoveDirection()
+    {
+        // By default move towards the dice/player
+        return GetVectorToPlayer().normalized;
+    }
+
+    protected virtual void Move()
+    {
         // Move the enemy
         transform.Translate(moveDirection * movementSpeed);
 
@@ -62,11 +79,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual Vector3 GetMoveDirection()
-    {
-        // By default move towards the dice/player
-        return (playerTransform.position - transform.position).normalized;
-    }
 
     protected virtual void Shoot()
     {

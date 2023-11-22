@@ -8,6 +8,11 @@ public class EnemyType2 : Enemy
         return Vector3.zero;
     }
 
+    protected override void Move()
+    {
+        // This enemy doesn't rotate either move towards the dice
+    }
+
     protected override void Shoot()
     {
         // Instantiate a bullet and set its direction
