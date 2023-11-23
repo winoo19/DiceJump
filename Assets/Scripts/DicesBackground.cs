@@ -7,13 +7,17 @@ public class DicesBackground : MonoBehaviour
     // List of dices (empty game objects) that will move around the background
     public GameObject[] dices;
 
-    private float spawnDelay = 5f; // Time between each dice spawn
+    private float spawnDelay = 8f; // Time between each dice spawn
 
     private float currentTimer = 0f; // Current time since last dice spawn
 
+    private BoxCollider2D gameBorderCollider; // Limits of the game
+
+
     void Start()
     {
-        
+        gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
+
     }
 
     // Update is called once per frame
@@ -36,11 +40,8 @@ public class DicesBackground : MonoBehaviour
         // Get a random dice from the list
         GameObject dice = dices[Random.Range(0, dices.Length)];
 
-        // Get a random position inside the background
-        Vector3 randomPos = new Vector3(Random.Range(transform.position.x - transform.localScale.x / 2, transform.position.x + transform.localScale.x / 2),
-                                        Random.Range(transform.position.y - transform.localScale.y / 2, transform.position.y + transform.localScale.y / 2),
-                                        0);
-
+        // Spawn the dice in the down limits - margin, and in the x coordinate also randomly inside the limits
+        Vector3 randomPos = new Vector3(Random.Range(gameBorderCollider.bounds.min.x, gameBorderCollider.bounds.max.x), gameBorderCollider.bounds.min.y - 1, 0);
         // Spawn the dice
         Instantiate(dice, randomPos, Quaternion.identity);
     }
