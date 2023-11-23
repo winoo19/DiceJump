@@ -6,7 +6,7 @@ public class EnemyType4 : Enemy
     protected override void Start()
     {   
         // change bullet frequency
-        bulletFrequency = 0.5f;
+        bulletFrequency = 0.1f;
 
 
         base.Start();

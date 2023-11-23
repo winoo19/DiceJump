@@ -1,6 +1,11 @@
-// TODO: Cambiar el sprite del dado según el número de la cara (crear los sprites)
-// TODO: Enemigos
+
+
 // TODO: Mejorar animación de salto
+// TODO: Arregar mov del enemigo (que persiga bien y que no se salga de la pantalla)
+// TODO: Que el player no salte demasiado lejos
+// TODO: Menu
+// TODO: Aumentar el game collider al caer
+// TODO: vidas
 
 
 using UnityEngine;
