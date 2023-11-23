@@ -8,20 +8,7 @@ using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {   
-    // AÑADIDO: COLOR ======================================
-    // Variables de color
-    protected Color startColor = Color.red; // Color inicial
-    protected Color endColor = Color.blue; // Color final
-    protected float colorTransitionDuration = 5.0f; // Duración de la transición de color
-    protected float colorTransitionTime = 0f; // Tiempo actual de transición de color
-
-    // Get the circle childs, to then get their sprite renderer
-    protected List<GameObject> circles = new List<GameObject>();
-    protected List<SpriteRenderer> circlesSpriteRenderer = new List<SpriteRenderer>();
-
-    // =====================================================
-
-
+    
     protected float movementSpeed = 0.02f;
     protected float bulletFrequency = 5f; // How often the enemy shoots (seconds)
 
@@ -46,20 +33,9 @@ public class Enemy : MonoBehaviour
             Debug.LogError("Player GameObject not found!");
         }
 
-        GetChilds();
+        // GetChilds();
 
-        StartChangeColor();
-    }
-
-
-    protected void GetChilds()
-    {
-        // Get the circle childs, to then get their sprite renderer
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            circles.Add(transform.GetChild(i).gameObject);
-            circlesSpriteRenderer.Add(circles[i].GetComponent<SpriteRenderer>());
-        }
+        //StartChangeColor();
     }
 
     protected virtual void Update()
@@ -79,7 +55,7 @@ public class Enemy : MonoBehaviour
             timeSinceLastBullet += Time.deltaTime;
         }
 
-        UpdateColor();
+        // UpdateColor();
 
     }
 
@@ -120,38 +96,4 @@ public class Enemy : MonoBehaviour
         bullet.GetComponent<bulletMovement>().SetDirection(moveDirection);
     }
 
-    protected virtual void StartChangeColor()
-    {
-        // Stablish initial color of each circle but each with different brightness
-        // We want the first to be the lightest and the last the darkest so we go through
-        // the list in reverse order
-        startColor = new Color(startColor.r, startColor.g, startColor.b, 1f);
-        endColor = new Color(endColor.r, endColor.g, endColor.b, 1f);
-        for (int i = 0; i < circlesSpriteRenderer.Count; i++)
-        {
-            circlesSpriteRenderer[i].color = new Color(startColor.r, startColor.g, startColor.b, startColor.a - (i * 0.15f));
-        }
-    }
-
-
-    protected virtual void UpdateColor()
-    {
-        // Update the color of each circle
-        for (int i = 0; i < circlesSpriteRenderer.Count; i++)
-        {   
-            // Change the brightness of the color
-            Color c1 = new Color(startColor.r, startColor.g, startColor.b, startColor.a - (i * 0.5f));
-            Color c2 = new Color(endColor.r, endColor.g, endColor.b, endColor.a - (i * 0.15f));
-            circlesSpriteRenderer[i].color = Color.Lerp(c1, c2, colorTransitionTime / colorTransitionDuration);
-        }
-
-        // Update the time of the color transition
-        colorTransitionTime += Time.deltaTime;
-
-        // If the transition is over, start again
-        if (colorTransitionTime > colorTransitionDuration)
-        {
-            colorTransitionTime = 0f;
-        }
-    }
 }
