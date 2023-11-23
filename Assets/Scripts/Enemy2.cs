@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class EnemyType2 : Enemy
-{
+{   
+
+    protected float bulletFrequency = 10f;
     protected override Vector3 GetMoveDirection()
     {
         return Vector3.zero;

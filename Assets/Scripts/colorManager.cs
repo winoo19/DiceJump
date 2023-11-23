@@ -10,10 +10,13 @@ public class ColorManager : MonoBehaviour
     private float colorTransitionDuration = 5.0f; // Duración de la transición de color
     private float colorTransitionTime = 0f; // Tiempo actual de transición de color
 
+    public GameObject background; // Referencia al background
+
     private void Start()
     {
         // Establecer el color inicial de los enemigos
         UpdateColorEnemies();
+
     }
 
     private void Update()
@@ -21,6 +24,7 @@ public class ColorManager : MonoBehaviour
         // Actualizar el color de los enemigos
         UpdateColorPlayer();
         UpdateColorEnemies();
+        UpdateColorBakground();
 
         // Update color transition time
         colorTransitionTime += Time.deltaTime;
@@ -36,12 +40,34 @@ public class ColorManager : MonoBehaviour
 
     }
 
+    public void UpdateColorBakground()
+    {
+        // Get its spriterenderer component (child of the background is a square with a sprite renderer)
+        SpriteRenderer backgroundSpriteRenderer = background.transform.GetChild(0).GetComponent<SpriteRenderer>();
+
+        // It's color is going to be completely the opposite of the player and the enemies color
+        // Cogemos el color contrario del jugador
+
+        Color b1 = new Color(endColor.r, endColor.g, endColor.b, 0.2f);
+        Color b2 = new Color(startColor.r, startColor.g, startColor.b, 0.2f);
+        backgroundSpriteRenderer.color = Color.Lerp(b2,b1, colorTransitionTime / colorTransitionDuration);
+    }
+
+    public Color GetOppositeColor(Color color)
+    {
+        // Calcular el color opuesto invirtiendo los componentes RGB
+        Color oppositeColor = new Color(1f - color.r, 1f - color.g, 1f - color.b);
+        return oppositeColor;
+    }
+
+
     public void UpdateColorPlayer()
     {
         GameObject player = GameObject.Find("Player"); // Find the GameObject representing the dice
         // Get its spriterenderer component and change its colorgradually
         SpriteRenderer playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         playerSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
+
     }
 
     public void UpdateColorEnemies()
