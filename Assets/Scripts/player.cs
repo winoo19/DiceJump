@@ -4,6 +4,8 @@
 
 
 using UnityEngine;
+using System.Collections.Generic;
+
 
 public class Player : MonoBehaviour
 {
@@ -37,18 +39,24 @@ public class Player : MonoBehaviour
     public GameObject jumpAnimation; // Instance of the jump animation
     private SpriteRenderer[] spriteRenderers; // Sprite renderers of the player and its children
     private LineRenderer[] lineRenderers; // Line renderers of the player and its children
+    private GameObject[] diceSides; // Sides of the dice
 
     // Initialization
     private void Start()
     {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
         circleRenderer = GameObject.Find("Circle").GetComponent<CircleRenderer>();
+        
+        // Add the sides (tag "Side") to the array
+        diceSides = GameObject.FindGameObjectsWithTag("Side");
 
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         lineRenderers = GetComponentsInChildren<LineRenderer>();
 
 
         diceNumber = Random.Range(1, 7); // Initial dice number
+        // Enable the correspondent side and disable the rest
+        enableSide(diceNumber);
         circleRenderer.UpdateRadius(diceNumber);
     }
 
@@ -78,6 +86,9 @@ public class Player : MonoBehaviour
 
                 // Reroll the dice
                 diceNumber = Random.Range(1, 7);
+
+                // Enable the correspondent side and disable the rest
+                enableSide(diceNumber);
 
                 // Update the radius of the circle renderer
                 circleRenderer.UpdateRadius(diceNumber);
@@ -123,6 +134,26 @@ public class Player : MonoBehaviour
                 1.0f / rotationSpeed
             );
             transform.rotation = Quaternion.Euler(0, 0, smoothAngle);
+        }
+    }
+
+    // Enable the side of the dice with the given number
+    private void enableSide(int number)
+    {
+        // Disable all sides
+        foreach (GameObject side in diceSides)
+        {   
+            //Debug.Log(side);
+            side.SetActive(false);
+        }
+
+        // Enable the side with the given number (it takes the higher number as the )
+        foreach (GameObject side in diceSides)
+        {
+            if (side.name == "Side" + number)
+            {
+                side.SetActive(true);
+            }
         }
     }
 
