@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviour
             if (collider.CompareTag("Enemy"))
             {
                 // Destroy the GameObject associated with the collider
+                Debug.Log("Enemy of name " + collider.gameObject.name + " destroyed!");
                 Destroy(collider.gameObject);
             }
         }

@@ -1,7 +1,16 @@
+// This script will be used by an empty gameobject that has 5 childs
+// which are 5 concentric circles 2D  of the same color with different brightness.
+// I want this script to change gradually the color, but each of the circles
+// maintaining the same brightness.
+
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyType2 : Enemy
-{
+
+public class EnemyType4 : Enemy
+{   
+
     protected override Vector3 GetMoveDirection()
     {
         return Vector3.zero;
@@ -11,6 +20,7 @@ public class EnemyType2 : Enemy
     {
         // This enemy doesn't rotate either move towards the dice
     }
+
 
     protected override void Shoot()
     {
@@ -25,4 +35,6 @@ public class EnemyType2 : Enemy
             bullet.GetComponent<bulletMovement>().SetBulletMovementSpeed(0.05f);
         }
     }
+
 }
+    

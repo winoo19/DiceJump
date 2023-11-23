@@ -8,6 +8,7 @@ using System.Collections.Generic;
 
 public class Enemy : MonoBehaviour
 {   
+    
     protected float movementSpeed = 0.02f;
     protected float bulletFrequency = 5f; // How often the enemy shoots (seconds)
 
@@ -19,8 +20,9 @@ public class Enemy : MonoBehaviour
 
     public GameObject bulletPrefab; // Prefab of the bullet to shoot
 
-    private void Start()
-    {
+    protected virtual void Start()
+    {   
+
         GameObject player = GameObject.Find("Player"); // Find the GameObject representing the dice
         if (player != null)
         {
@@ -30,10 +32,14 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Player GameObject not found!");
         }
+
+        // GetChilds();
+
+        //StartChangeColor();
     }
 
-    private void Update()
-    {
+    protected virtual void Update()
+    {   
         if (playerTransform != null)
         {
             // Calculate the direction towards the dice/player
@@ -48,6 +54,9 @@ public class Enemy : MonoBehaviour
         {
             timeSinceLastBullet += Time.deltaTime;
         }
+
+        // UpdateColor();
+
     }
 
     private void FixedUpdate()
@@ -86,4 +95,5 @@ public class Enemy : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         bullet.GetComponent<bulletMovement>().SetDirection(moveDirection);
     }
+
 }
