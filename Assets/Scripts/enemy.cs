@@ -33,9 +33,6 @@ public class Enemy : MonoBehaviour
             Debug.LogError("Player GameObject not found!");
         }
 
-        // GetChilds();
-
-        //StartChangeColor();
     }
 
     protected virtual void Update()
@@ -54,8 +51,6 @@ public class Enemy : MonoBehaviour
         {
             timeSinceLastBullet += Time.deltaTime;
         }
-
-        // UpdateColor();
 
     }
 
@@ -91,7 +86,6 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Shoot()
     {
-        // By default shoot towards the player
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         bullet.GetComponent<bulletMovement>().SetDirection(moveDirection);
     }

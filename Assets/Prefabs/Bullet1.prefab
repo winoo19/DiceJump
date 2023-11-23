@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -758322465448484842, guid: be10ac920df1b4f4c865b48dd5aca407, type: 3}
+      propertyPath: bulletMovementSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746910722719520719, guid: be10ac920df1b4f4c865b48dd5aca407, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746910722719520719, guid: be10ac920df1b4f4c865b48dd5aca407, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1746910722719520719, guid: be10ac920df1b4f4c865b48dd5aca407, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
