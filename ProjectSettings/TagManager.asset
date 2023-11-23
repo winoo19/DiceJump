@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameBorder
   - Enemy
+  - Side
   layers:
   - Default
   - TransparentFX
