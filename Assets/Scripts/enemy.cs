@@ -10,14 +10,16 @@ public class Enemy : MonoBehaviour
 {   
     // AÑADIDO: COLOR ======================================
     // Variables de color
-    public Color startColor = Color.red; // Color inicial
-    public Color endColor = Color.blue; // Color final
-    public float colorTransitionDuration = 2.0f; // Duración de la transición de color
-
-    private SpriteRenderer enemySpriteRenderer; // Referencia al componente Renderer del enemigo
+    protected Color startColor = Color.red; // Color inicial
+    protected Color endColor = Color.blue; // Color final
+    protected float colorTransitionDuration = 5.0f; // Duración de la transición de color
     protected float colorTransitionTime = 0f; // Tiempo actual de transición de color
-    // =====================================================
 
+    // Get the circle childs, to then get their sprite renderer
+    protected List<GameObject> circles = new List<GameObject>();
+    protected List<SpriteRenderer> circlesSpriteRenderer = new List<SpriteRenderer>();
+
+    // =====================================================
 
 
     protected float movementSpeed = 0.02f;
@@ -31,9 +33,8 @@ public class Enemy : MonoBehaviour
 
     public GameObject bulletPrefab; // Prefab of the bullet to shoot
 
-    private void Start()
+    protected virtual void Start()
     {   
-        StartChangeColor();
 
         GameObject player = GameObject.Find("Player"); // Find the GameObject representing the dice
         if (player != null)
@@ -44,9 +45,24 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("Player GameObject not found!");
         }
+
+        GetChilds();
+
+        StartChangeColor();
     }
 
-    private void Update()
+
+    protected void GetChilds()
+    {
+        // Get the circle childs, to then get their sprite renderer
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            circles.Add(transform.GetChild(i).gameObject);
+            circlesSpriteRenderer.Add(circles[i].GetComponent<SpriteRenderer>());
+        }
+    }
+
+    protected virtual void Update()
     {   
         if (playerTransform != null)
         {
@@ -63,7 +79,8 @@ public class Enemy : MonoBehaviour
             timeSinceLastBullet += Time.deltaTime;
         }
 
-        ChangeColor();
+        UpdateColor();
+
     }
 
     private void FixedUpdate()
@@ -105,35 +122,36 @@ public class Enemy : MonoBehaviour
 
     protected virtual void StartChangeColor()
     {
-        // AÑADIDO: COLOR ======================================
-        enemySpriteRenderer = GetComponent<SpriteRenderer>(); // Obtener el componente SpriteRenderer del enemigo
-
-        if (enemySpriteRenderer != null)
+        // Stablish initial color of each circle but each with different brightness
+        // We want the first to be the lightest and the last the darkest so we go through
+        // the list in reverse order
+        startColor = new Color(startColor.r, startColor.g, startColor.b, 1f);
+        endColor = new Color(endColor.r, endColor.g, endColor.b, 1f);
+        for (int i = 0; i < circlesSpriteRenderer.Count; i++)
         {
-            enemySpriteRenderer.color = startColor; // Establecer el color inicial
+            circlesSpriteRenderer[i].color = new Color(startColor.r, startColor.g, startColor.b, startColor.a - (i * 0.15f));
         }
-        else
-        {
-            Debug.LogError("SpriteRenderer component not found!");
-        }
-        // =====================================================
     }
 
 
-    protected virtual void ChangeColor()
+    protected virtual void UpdateColor()
     {
-        // =====================================================
-        if (enemySpriteRenderer != null)
-        {
-            // Incrementar el tiempo de transición del color
-            colorTransitionTime += Time.deltaTime;
-
-            // Calcular la proporción de tiempo transcurrido para la transición
-            float t = Mathf.PingPong(colorTransitionTime, colorTransitionDuration) / colorTransitionDuration;
-
-            // Interpolar gradualmente entre los colores inicial y final
-            enemySpriteRenderer.color = Color.Lerp(startColor, endColor, t);
+        // Update the color of each circle
+        for (int i = 0; i < circlesSpriteRenderer.Count; i++)
+        {   
+            // Change the brightness of the color
+            Color c1 = new Color(startColor.r, startColor.g, startColor.b, startColor.a - (i * 0.5f));
+            Color c2 = new Color(endColor.r, endColor.g, endColor.b, endColor.a - (i * 0.15f));
+            circlesSpriteRenderer[i].color = Color.Lerp(c1, c2, colorTransitionTime / colorTransitionDuration);
         }
-        // =====================================================
+
+        // Update the time of the color transition
+        colorTransitionTime += Time.deltaTime;
+
+        // If the transition is over, start again
+        if (colorTransitionTime > colorTransitionDuration)
+        {
+            colorTransitionTime = 0f;
+        }
     }
 }

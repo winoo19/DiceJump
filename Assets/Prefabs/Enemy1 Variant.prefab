@@ -92,6 +92,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 519939158866174201, guid: db09f2ce372094506b79ccb15f98c7ce, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5463248741733751869, guid: db09f2ce372094506b79ccb15f98c7ce, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.50640756
@@ -170,4 +174,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7fbbb56ede84a96bf1969f0bdb902c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startColor: {r: 1, g: 0, b: 0, a: 1}
+  endColor: {r: 0, g: 0, b: 1, a: 1}
+  colorTransitionDuration: 2
   bulletPrefab: {fileID: 8908726085110341587, guid: 2bd35bf8df7f94b58b3d442e7ea25931, type: 3}
+  runAwayDistance: 3

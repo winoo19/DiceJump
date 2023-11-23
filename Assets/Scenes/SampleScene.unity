@@ -863,8 +863,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 3750774461155319815, guid: 76666982619364bed9d6a928b9956f17, type: 3}
-  - {fileID: 7193493314712103664, guid: e26d85ea4d9714b8fbfd6bd0bc42040a, type: 3}
+  - {fileID: 8638589630425155556, guid: 3e2c70b6f48d34766a50ca709f1496fb, type: 3}
   - {fileID: 3750774461155319815, guid: 6dbe6a7cfa7c040d68a16bcd71a1d5cc, type: 3}
+  - {fileID: 7503693010716364243, guid: 91f93c79570c14ff88b8579343a00f0d, type: 3}
   spawnEffectPrefab: {fileID: 6971504061524855395, guid: 257db1a627c634db3ba638dd4d7d53f0, type: 3}
 --- !u!4 &749816534
 Transform:
@@ -2075,6 +2076,10 @@ PrefabInstance:
     - target: {fileID: 1771550343422411991, guid: 4048eb0d4dc0c47c1a8d172d4c337636, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1771550343422411991, guid: 4048eb0d4dc0c47c1a8d172d4c337636, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5941372160315064276, guid: 4048eb0d4dc0c47c1a8d172d4c337636, type: 3}
       propertyPath: m_LocalPosition.x
