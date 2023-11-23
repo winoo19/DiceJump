@@ -15,8 +15,11 @@ public class EnemigoSpawner : MonoBehaviour
     private bool isSpawningWave = false;
     private GameObject[] currentSpawnEffects; // Lista de efectos de aparición de enemigos
 
+    private BoxCollider2D gameBorderCollider; // Limits of the game
+
     private void Start()
     {   
+        gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
         timeOfNextWave = 0f; // Comenzar con la primera oleada inmediatamente
     }
 
@@ -38,7 +41,10 @@ public class EnemigoSpawner : MonoBehaviour
         // Generar y almacenar los tres efectos de aparición al mismo tiempo
         for (int i = 0; i < enemiesPerWave; i++)
         {
-            Vector3 randomPos = Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, 0));
+            // We can only spawn enemies inside the game border
+            Vector3 randomPos = new Vector3(Random.Range(gameBorderCollider.bounds.min.x, gameBorderCollider.bounds.max.x),
+                                            Random.Range(gameBorderCollider.bounds.min.y, gameBorderCollider.bounds.max.y),
+                                            0);
             randomPos.z = 0;
 
             currentSpawnEffects[i] = Instantiate(spawnEffectPrefab, randomPos, Quaternion.identity);

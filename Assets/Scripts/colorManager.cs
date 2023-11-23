@@ -44,13 +44,20 @@ public class ColorManager : MonoBehaviour
     {
         // Get its spriterenderer component (child of the background is a square with a sprite renderer)
         SpriteRenderer backgroundSpriteRenderer = background.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        SpriteRenderer backgroundSpriteRenderer1 = background.transform.GetChild(1).GetComponent<SpriteRenderer>();
+        SpriteRenderer backgroundSpriteRenderer2 = background.transform.GetChild(2).GetComponent<SpriteRenderer>();
 
         // It's color is going to be completely the opposite of the player and the enemies color
         // Cogemos el color contrario del jugador
 
         Color b1 = new Color(endColor.r, endColor.g, endColor.b, 0.2f);
         Color b2 = new Color(startColor.r, startColor.g, startColor.b, 0.2f);
+        Color b11 = new Color(endColor.r, endColor.g, endColor.b, 0.8f);
+        Color b22 = new Color(startColor.r, startColor.g, startColor.b, 0.8f);
         backgroundSpriteRenderer.color = Color.Lerp(b2,b1, colorTransitionTime / colorTransitionDuration);
+        backgroundSpriteRenderer1.color = Color.Lerp(b22, b11, colorTransitionTime / colorTransitionDuration);
+        backgroundSpriteRenderer2.color = Color.Lerp(b22, b11, colorTransitionTime / colorTransitionDuration);
+
     }
 
     public Color GetOppositeColor(Color color)
@@ -123,4 +130,21 @@ public class ColorManager : MonoBehaviour
 
         return circlesSpriteRenderer;
     }
+
+
+    public Color GetVibrantColor(Color color)
+    {
+        // Incrementar los componentes RGB para obtener un color más vibrante
+        float increaseValue = 0.3f; // Valor de incremento, puedes ajustarlo según tus necesidades
+
+        Color vibrantColor = new Color(
+            Mathf.Clamp(color.r + increaseValue, 0f, 1f), // Asegura que el valor esté dentro del rango 0-1
+            Mathf.Clamp(color.g + increaseValue, 0f, 1f),
+            Mathf.Clamp(color.b + increaseValue, 0f, 1f),
+            color.a
+        );
+
+        return vibrantColor;
+    }
+
 }
