@@ -123,6 +123,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &42797588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42797589}
+  - component: {fileID: 42797590}
+  m_Layer: 0
+  m_Name: DicesBackground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &42797589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42797588}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0010000169, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &42797590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42797588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349b24078163f41d2a4b6224d5583f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dices:
+  - {fileID: 2770457381464961827, guid: 61f2e384468984a9cb618dbae9837df4, type: 3}
+  - {fileID: 9024908243156711104, guid: 911e853977b504972a9bcace7eca776f, type: 3}
+  - {fileID: 1426462381569943483, guid: c73a5f3b5aefb427cb6e643cfdc74322, type: 3}
+  - {fileID: 3949272462938530112, guid: cb7518857931c451ba86def6a2938857, type: 3}
+  - {fileID: 2095799912921371679, guid: a9547c78e8a19426e837c09396a0dc6c, type: 3}
+  - {fileID: 6321736916132220464, guid: a60c58a93d7554b02953ccbc1a8637dc, type: 3}
 --- !u!1 &43830934
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,3 +2543,4 @@ SceneRoots:
   - {fileID: 383546329}
   - {fileID: 2052895108}
   - {fileID: 564287561}
+  - {fileID: 42797589}

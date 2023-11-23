@@ -8,7 +8,7 @@ public class EnemigoSpawner : MonoBehaviour
     private int waveCount = 0; // Contador de oleadas
     private int enemiesPerWave = 3; // Cantidad de enemigos por oleada inicial
     private float initialSpawnDelay = 10f; // Tiempo inicial entre oleadas
-    private float spawnDelayDecrease = 1f; // Reducción de tiempo entre oleadas
+    private float spawnDelayDecrease = 0.05f; // Reducción de tiempo entre oleadas
     private float minSpawnDelay = 5f; // Tiempo mínimo entre oleadas
 
     private float timeOfNextWave;
