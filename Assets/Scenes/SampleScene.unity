@@ -789,6 +789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 2052895109}
+  warningSign: {fileID: 1602378749072205695, guid: 9d9d2173780d24006864109896398d75, type: 3}
 --- !u!4 &383546329
 Transform:
   m_ObjectHideFlags: 0
@@ -1038,7 +1039,7 @@ MonoBehaviour:
   - {fileID: 8638589630425155556, guid: 3e2c70b6f48d34766a50ca709f1496fb, type: 3}
   - {fileID: 3750774461155319815, guid: 6dbe6a7cfa7c040d68a16bcd71a1d5cc, type: 3}
   - {fileID: 4059139306018743401, guid: f560ebed2084f4452a0735d4b62cd1f8, type: 3}
-  spawnEffectPrefab: {fileID: 6971504061524855395, guid: 257db1a627c634db3ba638dd4d7d53f0, type: 3}
+  spawnEffectPrefab: {fileID: 1602378749072205695, guid: 9d9d2173780d24006864109896398d75, type: 3}
 --- !u!4 &749816534
 Transform:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class ColorManager : MonoBehaviour
     private float colorTransitionTime = 0f; // Tiempo actual de transición de color
 
     public GameObject background; // Referencia al background
-
+    
     private void Start()
     {
         // Establecer el color inicial de los enemigos

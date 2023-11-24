@@ -41,7 +41,7 @@ public class DicesBackground : MonoBehaviour
         GameObject dice = dices[Random.Range(0, dices.Length)];
 
         // Spawn the dice in the down limits - margin, and in the x coordinate also randomly inside the limits
-        Vector3 randomPos = new Vector3(Random.Range(gameBorderCollider.bounds.min.x, gameBorderCollider.bounds.max.x), gameBorderCollider.bounds.min.y - 1, 0);
+        Vector3 randomPos = new Vector3(Random.Range(gameBorderCollider.bounds.min.x, gameBorderCollider.bounds.max.x + 2), gameBorderCollider.bounds.min.y - 1, 0);
         // Spawn the dice
         Instantiate(dice, randomPos, Quaternion.identity);
     }
