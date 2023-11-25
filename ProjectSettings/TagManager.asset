@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Side
   - WarningSign
+  - CubeAnimation
   layers:
   - Default
   - TransparentFX

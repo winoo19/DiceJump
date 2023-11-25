@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     private Player player;
     public GameObject playerPrefab;
+    public float poundRadius = 1.5f;
 
     private void Start()
     {
@@ -74,11 +75,10 @@ public class GameManager : MonoBehaviour
 
     private void DestroyJumpedEnemies()
     {
-        // Get all colliders within a box around the player's position
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+        // Get all colliders within a circle around the player's position
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(
             player.transform.position,
-            player.GetComponent<BoxCollider2D>().size,
-            0f);
+            poundRadius);
 
         foreach (Collider2D collider in colliders)
         {
