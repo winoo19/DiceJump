@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class diceMovement : MonoBehaviour
-{   
+{
 
-    private float speed = 0.5f; // Speed of the dice
+    private float speed; // Speed of the dice
     private float rotationSpeed = 0.05f; // Speed of the dice rotation
 
     private BoxCollider2D gameBorderCollider; // Limits of the game
@@ -27,7 +27,11 @@ public class diceMovement : MonoBehaviour
 
         // If the dice is outside the game limits, destroy it
         checkOutsideLimits();
-        
+    }
+
+    public void setSpeed(float speed)
+    {
+        this.speed = speed;
     }
 
     private void checkOutsideLimits()

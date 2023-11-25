@@ -1,11 +1,5 @@
-
-
 // TODO: Mejorar animación de salto
-// TODO: Arregar mov del enemigo (que persiga bien y que no se salga de la pantalla)
-// TODO: Que el player no salte demasiado lejos
 // TODO: Menu
-// TODO: Aumentar el game collider al caer
-// TODO: vidas
 
 
 using UnityEngine;
@@ -20,7 +14,7 @@ public class Player : MonoBehaviour
 
     // Movement variables (to tweak so that it feels nice)
     public float moveSpeed = 0.07f;
-    public float jumpForce = 1.2f;
+    public float jumpForce = 1f;
     public float rotationSpeed = 8f;
 
     private int diceNumber;
@@ -60,7 +54,7 @@ public class Player : MonoBehaviour
         diceNumber = Random.Range(1, 7); // Initial dice number
         // Enable the correspondent side and disable the rest
         EnableSide(diceNumber);
-        circleRenderer.UpdateRadius(diceNumber);
+        circleRenderer.UpdateRadius(diceNumber * jumpForce);
     }
 
     // Update (once per frame)
@@ -93,7 +87,7 @@ public class Player : MonoBehaviour
                 EnableSide(diceNumber);
 
                 // Update the radius of the circle renderer
-                circleRenderer.UpdateRadius(diceNumber);
+                circleRenderer.UpdateRadius(diceNumber * jumpForce);
 
                 // Change opacity of the circle renderer
                 circleRenderer.ChangeOpacity(0.3f);

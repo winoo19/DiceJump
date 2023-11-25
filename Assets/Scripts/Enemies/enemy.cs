@@ -1,7 +1,3 @@
-// TODO Interrogación antes de que aparezcan
-// TODO Tipos de enemigos
-
-
 using UnityEngine;
 using System.Collections.Generic;
 

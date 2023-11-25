@@ -1,4 +1,3 @@
-// TODO vidas
 // TODO perder
 // TODO Puntuacion
 
@@ -16,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject heartsPrefab; // Empty GameObject with the hearts sprites as children
 
-    private float invencibilityFrames = 1f;
+    private float invencibilityFrames = 1.5f;
     private float invencibilityFramesCounter = 0;
 
     private void Start()
@@ -41,20 +40,16 @@ public class GameManager : MonoBehaviour
             if (invencibilityFramesCounter <= 0)
             {
                 lives--;
-                UpdateHearts();
                 StartCoroutine(Blink()); // Blink the player while the invencibility frames are active
                 invencibilityFramesCounter = invencibilityFrames;
                 if (lives <= 0)
                 {
                     lives = 3;
-                    UpdateHearts();
                 }
-            }
-            else
-            {
-                invencibilityFramesCounter -= Time.deltaTime;
+                UpdateHearts();
             }
         }
+        invencibilityFramesCounter -= Time.deltaTime;
     }
 
     private System.Collections.IEnumerator Blink()

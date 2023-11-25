@@ -18,7 +18,7 @@ public class CircleRenderer : MonoBehaviour
     }
 
     // Update the radius of the circle
-    public void UpdateRadius(int radius)
+    public void UpdateRadius(float radius)
     {
         for (int i = 0; i < points; i++)
         {

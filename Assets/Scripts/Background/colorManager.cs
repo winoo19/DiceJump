@@ -19,6 +19,7 @@ public class ColorManager : MonoBehaviour
         UpdateColorEnemies();
         UpdateColorBakground();
         UpdateColorDiceAnimation();
+        UpdatePlayButton();
 
         // Update color transition time
         colorTransitionTime += Time.deltaTime;
@@ -32,6 +33,19 @@ public class ColorManager : MonoBehaviour
             colorTransitionTime = 0f;
         }
 
+    }
+
+    public void UpdatePlayButton()
+    {
+        GameObject playButton = GameObject.Find("Play Button");
+        if (playButton != null)
+        {
+            // Update color of playButton children
+            for (int i = 0; i < playButton.transform.childCount; i++)
+            {
+                playButton.transform.GetChild(i).GetComponent<SpriteRenderer>().color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
+            }
+        }
     }
 
     public void UpdateColorBakground()
@@ -73,11 +87,14 @@ public class ColorManager : MonoBehaviour
         GameObject player = GameObject.Find("Player"); // Find the GameObject representing the dice
         GameObject triangle = GameObject.Find("Triangle"); // Find the GameObject representing the arrow
         // Get its spriterenderer component and change its colorgradually
-        SpriteRenderer playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
-        SpriteRenderer triangleSpriteRenderer = triangle.GetComponent<SpriteRenderer>();
+        if (player != null)
+        {
+            SpriteRenderer playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
+            SpriteRenderer triangleSpriteRenderer = triangle.GetComponent<SpriteRenderer>();
 
-        playerSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
-        triangleSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
+            playerSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
+            triangleSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
+        }
     }
 
     public void UpdateColorEnemies()
