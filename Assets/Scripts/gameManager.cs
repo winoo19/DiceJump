@@ -12,6 +12,13 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public float poundRadius = 1.5f;
 
+    private int lives = 3;
+
+    public GameObject heartsPrefab; // Empty GameObject with the hearts sprites as children
+
+    private float invencibilityFrames = 1f;
+    private float invencibilityFramesCounter = 0;
+
     private void Start()
     {
         player = FindObjectOfType<Player>();
@@ -31,8 +38,63 @@ public class GameManager : MonoBehaviour
     {
         if (IsOnEnemy())
         {
-            // Restart();
-            //Debug.Log("Game Over!");
+            if (invencibilityFramesCounter <= 0)
+            {
+                lives--;
+                UpdateHearts();
+                StartCoroutine(Blink()); // Blink the player while the invencibility frames are active
+                invencibilityFramesCounter = invencibilityFrames;
+                if (lives <= 0)
+                {
+                    lives = 3;
+                    UpdateHearts();
+                }
+            }
+            else
+            {
+                invencibilityFramesCounter -= Time.deltaTime;
+            }
+        }
+    }
+
+    private System.Collections.IEnumerator Blink()
+    {
+        float blinkCounter = 0;
+        float colorAlpha = 0.5f;
+        while (blinkCounter < invencibilityFrames)
+        {
+            // Get the color of the player, and change gradually and fast its alpha
+            Color newColor = player.GetComponent<SpriteRenderer>().color;
+            newColor.a = colorAlpha + Mathf.Sin(blinkCounter * 20) * 0.5f;
+            player.GetComponent<SpriteRenderer>().color = newColor;
+
+            blinkCounter += Time.deltaTime;
+            yield return null; // This statement is required for IEnumerator methods
+        }
+
+        // Reset the color of the player
+        Color resetColor = player.GetComponent<SpriteRenderer>().color;
+        resetColor.a = 1f;
+        player.GetComponent<SpriteRenderer>().color = resetColor;
+
+        // Add a return statement to fulfill all code paths
+        yield return null;
+    }
+
+
+
+    private void UpdateHearts()
+    {
+        for (int i = 0; i < heartsPrefab.transform.childCount; i++)
+        {
+            if (i < lives)
+            {
+                heartsPrefab.transform.GetChild(i).gameObject.SetActive(true);
+            }
+            else
+            {
+                heartsPrefab.transform.GetChild(i).gameObject.SetActive(false);
+            }
         }
     }
 
