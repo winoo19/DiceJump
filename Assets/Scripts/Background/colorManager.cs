@@ -40,11 +40,8 @@ public class ColorManager : MonoBehaviour
         GameObject playButton = GameObject.Find("Play Button");
         if (playButton != null)
         {
-            // Update color of playButton children
-            for (int i = 0; i < playButton.transform.childCount; i++)
-            {
-                playButton.transform.GetChild(i).GetComponent<SpriteRenderer>().color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
-            }
+            SpriteRenderer playButtonSpriteRenderer = playButton.GetComponent<SpriteRenderer>();
+            playButtonSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
         }
     }
 

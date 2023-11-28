@@ -40,7 +40,7 @@ public class diceMovement : MonoBehaviour
         if (transform.position.x < gameBorderCollider.bounds.min.x - 1 ||
             transform.position.x > gameBorderCollider.bounds.max.x + 1 ||
             transform.position.y < gameBorderCollider.bounds.min.y - 1 ||
-            transform.position.y > gameBorderCollider.bounds.max.y + 1)
+            transform.position.y > gameBorderCollider.bounds.max.y + 4)
         {
             Destroy(gameObject);
         }
