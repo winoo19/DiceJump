@@ -42,4 +42,5 @@ public class CircleRenderer : MonoBehaviour
         lineRenderer.startColor = c;
         lineRenderer.endColor = c;
     }
+    
 }
