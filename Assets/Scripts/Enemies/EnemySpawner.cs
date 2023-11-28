@@ -1,14 +1,14 @@
 using UnityEngine;
 
 public class EnemigoSpawner : MonoBehaviour
-{   
+{
     public GameObject[] enemyPrefabs; // Lista de prefabs de enemigos
     public GameObject spawnEffectPrefab; // Prefab del efecto de aparición
 
     private int waveCount = 0; // Contador de oleadas
     private int enemiesPerWave = 3; // Cantidad de enemigos por oleada inicial
-    private float initialSpawnDelay = 10f; // Tiempo inicial entre oleadas
-    private float spawnDelayDecrease = 0.05f; // Reducción de tiempo entre oleadas
+    private float initialSpawnDelay = 8f; // Tiempo inicial entre oleadas
+    private float spawnDelayDecrease = 0.5f; // Reducción de tiempo entre oleadas
     private float minSpawnDelay = 5f; // Tiempo mínimo entre oleadas
 
     private float timeOfNextWave;
@@ -18,7 +18,7 @@ public class EnemigoSpawner : MonoBehaviour
     private BoxCollider2D gameBorderCollider; // Limits of the game
 
     private void Start()
-    {   
+    {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
         timeOfNextWave = 0f; // Comenzar con la primera oleada inmediatamente
     }
@@ -81,7 +81,7 @@ public class EnemigoSpawner : MonoBehaviour
     {
         waveCount++;
 
-        if (waveCount % 5 == 0) // Cada 5 oleadas aumenta la cantidad de enemigos por oleada
+        if (waveCount % 4 == 0) // Cada 5 oleadas aumenta la cantidad de enemigos por oleada
         {
             enemiesPerWave += 1;
         }

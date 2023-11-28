@@ -12,8 +12,17 @@ public class GameManager : MonoBehaviour
     public float poundRadius = 1.5f;
 
     private int lives = 3;
+    private int score = 0;
+    private int highScore = 0;
+    private float time = 0;
 
-    public GameObject heartsPrefab; // Empty GameObject with the hearts sprites as children
+    public GameObject heartsPrefab;
+    public GameObject timerObject;
+    private TMPro.TextMeshProUGUI timerText;
+    public GameObject scoreObject;
+    private TMPro.TextMeshProUGUI scoreText;
+    public GameObject highScoreObject;
+    private TMPro.TextMeshProUGUI highScoreText;
 
     private float invencibilityFrames = 1.5f;
     private float invencibilityFramesCounter = 0;
@@ -21,6 +30,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player>();
+        timerText = timerObject.GetComponent<TMPro.TextMeshProUGUI>();
+        scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
+        highScoreText = highScoreObject.GetComponent<TMPro.TextMeshProUGUI>();
+
+        scoreText.text = "Score:\n" + score;
+        highScoreText.text = "High Score:\n" + highScore;
     }
 
     private void OnEnable()
@@ -45,11 +60,14 @@ public class GameManager : MonoBehaviour
                 if (lives <= 0)
                 {
                     lives = 3;
+                    Restart();
                 }
                 UpdateHearts();
             }
         }
         invencibilityFramesCounter -= Time.deltaTime;
+        time += Time.deltaTime;
+        timerText.text = "Time:\n" + time.ToString("F1");
     }
 
     private System.Collections.IEnumerator Blink()
@@ -97,15 +115,30 @@ public class GameManager : MonoBehaviour
     {
         // Find objects with the Enemy tag
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
         // Destroy all enemies
         foreach (GameObject enemy in enemies)
         {
             Destroy(enemy);
         }
+        foreach (GameObject bullet in bullets)
+        {
+            Destroy(bullet);
+        }
 
-        // Destroy the player and instantiate a new one
-        Destroy(player);
-        player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<Player>();
+        // Reset the player
+        player.Reset();
+
+        // Update the high score
+        highScore = Mathf.Max(highScore, score);
+        highScoreText.text = "High Score:\n" + highScore;
+
+        // Reset the score
+        score = 0;
+        scoreText.text = "Score:\n" + score;
+
+        // Reset the timer
+        time = 0;
     }
 
     private bool IsOnEnemy()
@@ -121,7 +154,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Enemy"))
+            if (collider.CompareTag("Enemy") || collider.CompareTag("Bullet"))
             {
                 return true;
             }
@@ -139,10 +172,15 @@ public class GameManager : MonoBehaviour
 
         foreach (Collider2D collider in colliders)
         {
-            if (collider.CompareTag("Enemy"))
+            if (collider.CompareTag("Enemy") || collider.CompareTag("Bullet"))
             {
                 // Destroy the GameObject associated with the collider
                 Destroy(collider.gameObject);
+                if (collider.CompareTag("Enemy"))
+                {
+                    score++;
+                    scoreText.text = "Score:\n" + score;
+                }
             }
         }
     }

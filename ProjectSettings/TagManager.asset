@@ -9,6 +9,7 @@ TagManager:
   - Side
   - WarningSign
   - CubeAnimation
+  - Bullet
   layers:
   - Default
   - TransparentFX

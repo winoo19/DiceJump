@@ -114,6 +114,30 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        // Reset the player
+        transform.position = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+
+        timeSinceLastJump = 0f;
+        hasJumpedRecently = false;
+
+        diceNumber = Random.Range(1, 7);
+        EnableSide(diceNumber);
+        circleRenderer.UpdateRadius(diceNumber * jumpForce);
+        circleRenderer.ChangeOpacity(1f);
+
+        foreach (SpriteRenderer sr in spriteRenderers)
+        {
+            sr.enabled = true;
+        }
+        foreach (LineRenderer lr in lineRenderers)
+        {
+            lr.enabled = true;
+        }
+    }
+
     private void FixedUpdate()
     {
         // We only want the player to move when the jump animation is not playing
@@ -139,7 +163,6 @@ public class Player : MonoBehaviour
         // Disable all sides
         foreach (GameObject side in diceSides)
         {
-            //Debug.Log(side);
             side.SetActive(false);
         }
 
