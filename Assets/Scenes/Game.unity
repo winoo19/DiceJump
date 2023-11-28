@@ -450,7 +450,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 110}
-  m_LocalScale: {x: 18, y: 10, z: 1}
+  m_LocalScale: {x: 18, y: 12, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -920,8 +920,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1771550343422411991, guid: 4048eb0d4dc0c47c1a8d172d4c337636, type: 3}
+  cameraVibration: {fileID: 7863323505593101205}
   poundRadius: 1.5
   heartsPrefab: {fileID: 1659924356}
+  colorBackground: {fileID: 2052895109}
 --- !u!4 &1378333701
 Transform:
   m_ObjectHideFlags: 0
@@ -4494,6 +4496,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6478042402337111461, guid: b6df4b50949ea4c4eb4e4aaf32305b07, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478042402337111461, guid: b6df4b50949ea4c4eb4e4aaf32305b07, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478042402337111461, guid: b6df4b50949ea4c4eb4e4aaf32305b07, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4666,8 +4676,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7977870059922226458, guid: f5350336127ff4fd5ac9db69883fdc6c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7863323505593101205}
   m_SourcePrefab: {fileID: 100100000, guid: f5350336127ff4fd5ac9db69883fdc6c, type: 3}
+--- !u!1 &7863323505593101204 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7977870059922226458, guid: f5350336127ff4fd5ac9db69883fdc6c, type: 3}
+  m_PrefabInstance: {fileID: 7863323505593101203}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7863323505593101205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863323505593101204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5ebaba676284787a44f1ddcd1ec73a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vibrationIntensity: 0.1
+  vibrationDuration: 0.2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

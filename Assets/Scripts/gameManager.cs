@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     private Player player;
     public GameObject playerPrefab;
+    public CameraVibration cameraVibration; // Reference to the CameraVibration script  
     public float poundRadius = 1.5f;
 
     private int lives = 3;
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     private float invencibilityFrames = 1.5f;
     private float invencibilityFramesCounter = 0;
 
+    public GameObject colorBackground; // To blink the background when the player lands
+
     private void Start()
     {
         player = FindObjectOfType<Player>();
@@ -26,11 +29,15 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         Player.OnDiceLanded += DestroyJumpedEnemies;
+        Player.OnDiceLanded += TriggerCameraVibration;
+        Player.OnDiceLanded += BlinkBackground;
     }
 
     private void OnDisable()
     {
         Player.OnDiceLanded -= DestroyJumpedEnemies;
+        Player.OnDiceLanded -= TriggerCameraVibration;
+        Player.OnDiceLanded -= BlinkBackground;
     }
 
     private void Update()
@@ -144,6 +151,43 @@ public class GameManager : MonoBehaviour
                 // Destroy the GameObject associated with the collider
                 Destroy(collider.gameObject);
             }
+        }
+    }
+
+    private void TriggerCameraVibration()
+    {
+        if (cameraVibration != null)
+        {
+            cameraVibration.TriggerCameraVibration();
+        }
+    }
+
+    private void BlinkBackground()
+    {
+        StartCoroutine(BlinkBackgroundCoroutine());
+    }
+
+    private System.Collections.IEnumerator BlinkBackgroundCoroutine()
+    {
+        // Get the color of the childs 1 and 2 of the background
+        GameObject square1 = colorBackground.transform.GetChild(1).gameObject;
+        GameObject square2 = colorBackground.transform.GetChild(2).gameObject;
+        Color color = square1.GetComponent<SpriteRenderer>().color;
+
+        // Put the alpha at its highest
+        color.a = 1f;
+
+        // Set the new color to the background
+        square1.GetComponent<SpriteRenderer>().color = color;
+        square2.GetComponent<SpriteRenderer>().color = color;
+
+        // Turn it slowly transparent
+        while (color.a > 0.8f)
+        {
+            color.a -= Time.deltaTime * 5;
+            square1.GetComponent<SpriteRenderer>().color = color;
+            square2.GetComponent<SpriteRenderer>().color = color;
+            yield return null;
         }
     }
 }
