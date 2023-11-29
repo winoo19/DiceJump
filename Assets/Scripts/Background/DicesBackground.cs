@@ -26,7 +26,6 @@ public class DicesBackground : MonoBehaviour
         if (currentTimer >= spawnDelay)
         {
             float random = Random.Range(0, expectedDiceTime / spawnDelay);
-            Debug.Log(random);
             if (random < 1)
             {
                 SpawnDice();

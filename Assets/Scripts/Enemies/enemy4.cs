@@ -3,13 +3,10 @@ using UnityEngine;
 public class EnemyType4 : Enemy
 {
 
-    protected override void Start()
+    protected override void OnStart()
     {
         // change bullet frequency
         bulletFrequency = 0.15f;
-
-
-        base.Start();
     }
 
 
