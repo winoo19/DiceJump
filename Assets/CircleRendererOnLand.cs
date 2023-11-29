@@ -1,20 +1,45 @@
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class CircleRenderer : MonoBehaviour
+
+public class CircleRendererOnLand : MonoBehaviour
 {
     public int points = 50; // Number of points in the circle
-    private float lineWith = 0.05f; // Line width
+    private float lineWidth = 0.2f; // Line width
 
     private LineRenderer lineRenderer;
 
+    public float radius = 0f;
+
+    private float disapearanceTime = 4f;
+
     void Awake()
     {
+        radius = 0f;
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = points;
         lineRenderer.useWorldSpace = false;
-        lineRenderer.startWidth = lineWith;
-        lineRenderer.endWidth = lineWith;
+        lineRenderer.startWidth = lineWidth;
+        lineRenderer.endWidth = lineWidth;
+        lineRenderer.startColor = Color.white;
+        lineRenderer.endColor = Color.white;
+    }
+
+    void Update()
+    {   
+        if (radius > 0)
+        {
+            lineRenderer.enabled = true;
+            // diminish de radius
+            UpdateRadius(radius);
+            radius -= disapearanceTime*Time.deltaTime;
+
+        }
+        else
+        {
+            lineWidth = 0.2f;
+            lineRenderer.enabled = false;
+        }
     }
 
     // Update the radius of the circle
@@ -31,16 +56,4 @@ public class CircleRenderer : MonoBehaviour
         // Asegurémonos de que el último punto sea igual al primero para cerrar el círculo
         lineRenderer.SetPosition(points - 1, lineRenderer.GetPosition(0));
     }
-
-    // Change the opacity of the line depending on the time since
-    // the last jump, to indicate that the player can jump again
-    public void ChangeOpacity(float opacity)
-    {
-        Color c = lineRenderer.startColor;
-        c.a = opacity;
-
-        lineRenderer.startColor = c;
-        lineRenderer.endColor = c;
-    }
-
 }

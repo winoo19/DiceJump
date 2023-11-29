@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     // Components
     private BoxCollider2D gameBorderCollider; // Limits of the game
     private CircleRenderer circleRenderer; // Circle that indicates the radius of the jump
+    private CircleRendererOnLand circleRendererOnLand; // Animation of a circle when the player lands
     public GameObject jumpAnimationPrefab; // Jump animationk prefab
     public GameObject jumpAnimation; // Instance of the jump animation
     private SpriteRenderer[] spriteRenderers; // Sprite renderers of the player and its children
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
     {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
         circleRenderer = GameObject.Find("Circle").GetComponent<CircleRenderer>();
+        circleRendererOnLand = GameObject.Find("CircleOnLand").GetComponent<CircleRendererOnLand>();
 
         // Add the sides (tag "Side") to the array
         diceSides = GameObject.FindGameObjectsWithTag("Side");
@@ -261,7 +263,8 @@ public class Player : MonoBehaviour
     {
         // After the jump animation or landing, call the method that indicates the dice has landed
         if (OnDiceLanded != null)
-        {
+        {   
+            circleRendererOnLand.radius = 1f;
             OnDiceLanded(); // Trigger the event indicating the dice has landed
         }
     }
