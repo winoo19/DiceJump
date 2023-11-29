@@ -1189,12 +1189,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1771550343422411991, guid: 4048eb0d4dc0c47c1a8d172d4c337636, type: 3}
   cameraVibration: {fileID: 7863323505593101205}
+  deadEffectTrianglePrefab: {fileID: 2218356079916308803, guid: 3b6153fe81819440687bb7606d36509e, type: 3}
   poundRadius: 1.3
   heartsPrefab: {fileID: 1659924356}
-  colorBackground: {fileID: 2052895109}
   timerObject: {fileID: 1292212706}
   scoreObject: {fileID: 871503641}
   highScoreObject: {fileID: 1036579354}
+  colorBackground: {fileID: 2052895109}
 --- !u!4 &1378333701
 Transform:
   m_ObjectHideFlags: 0

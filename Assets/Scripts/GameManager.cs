@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     private Player player;
     public GameObject playerPrefab;
     public CameraVibration cameraVibration; // Reference to the CameraVibration script  
+
+    public GameObject deadEffectTrianglePrefab; // Prefab of the dead effect triangle
     public float poundRadius = 1.5f;
 
     private int lives = 3;
@@ -180,13 +182,16 @@ public class GameManager : MonoBehaviour
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Enemy") || collider.CompareTag("Bullet"))
-            {
+            {   
+                Vector3 enemyPosition = collider.transform.position;
                 // Destroy the GameObject associated with the collider
                 Destroy(collider.gameObject);
                 if (collider.CompareTag("Enemy"))
                 {
                     score++;
                     scoreText.text = "Score:\n" + score;
+                    // Spawn a dead effect were the enemy was
+                    Instantiate(deadEffectTrianglePrefab, enemyPosition, Quaternion.identity);
                 }
             }
         }

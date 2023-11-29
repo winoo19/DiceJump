@@ -11,7 +11,7 @@ public class CircleRendererOnLand : MonoBehaviour
 
     public float radius = 0f;
 
-    private float disapearanceTime = 4f;
+    private float disapearanceTime = 8f;
 
     void Awake()
     {
@@ -31,7 +31,7 @@ public class CircleRendererOnLand : MonoBehaviour
         {
             lineRenderer.enabled = true;
             // diminish de radius
-            UpdateRadius(radius);
+            UpdateRadius((1-radius));
             radius -= disapearanceTime*Time.deltaTime;
 
         }
