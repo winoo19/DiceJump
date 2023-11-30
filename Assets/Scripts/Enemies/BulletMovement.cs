@@ -11,6 +11,8 @@ public class bulletMovement : MonoBehaviour
 
     private BoxCollider2D gameBorderCollider; // Limits of the game
 
+    public GameObject spandingWavePrefab; // Prefab of the spanding wave
+
 
     private void Start()
     {
@@ -46,6 +48,8 @@ public class bulletMovement : MonoBehaviour
             transform.position.y < gameBorderCollider.bounds.min.y - 0.4 ||
             transform.position.y > gameBorderCollider.bounds.max.y + 0.4)
         {
+            // Antes de destrozar el gameobject, spawneamos un spanding wave en la posición del gameobject
+            Instantiate(spandingWavePrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
