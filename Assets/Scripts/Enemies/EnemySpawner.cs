@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class EnemigoSpawner : MonoBehaviour
 {
+    private const int initialEnemiesPerWave = 3;
     public GameObject[] enemyPrefabs; // Lista de prefabs de enemigos
     public GameObject spawnEffectPrefab; // Prefab del efecto de aparición
 
     private int waveCount = 0; // Contador de oleadas
-    private int enemiesPerWave = 3; // Cantidad de enemigos por oleada inicial
+    private int enemiesPerWave = initialEnemiesPerWave; // Cantidad de enemigos por oleada inicial
     private float initialSpawnDelay = 8f; // Tiempo inicial entre oleadas
-    private float spawnDelayDecrease = 0.5f; // Reducción de tiempo entre oleadas
-    private float minSpawnDelay = 5f; // Tiempo mínimo entre oleadas
+    private const float spawnDelayDecrease = 0.5f; // Reducción de tiempo entre oleadas
+    private const float minSpawnDelay = 5f; // Tiempo mínimo entre oleadas
 
     private float timeOfNextWave;
     private bool isSpawningWave = false;
@@ -54,9 +55,17 @@ public class EnemigoSpawner : MonoBehaviour
         UpdateWaveProperties();
     }
 
+    public void ResetWaveProperties()
+    {
+        waveCount = 0;
+        enemiesPerWave = initialEnemiesPerWave;
+        initialSpawnDelay = 8f;
+        timeOfNextWave = 0f;
+    }
+
     private System.Collections.IEnumerator SpawnEnemiesWithDelay()
     {
-        yield return new WaitForSeconds(1f); // Esperar un segundo antes de spawneando los enemigos
+        yield return new WaitForSeconds(1.5f); // Esperar un segundo antes de spawneando los enemigos
 
         foreach (GameObject effect in currentSpawnEffects)
         {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class WarningEffect : MonoBehaviour
 {
-    public float fadeSpeed = 3f; // Velocidad de desvanecimiento
+    public const float fadeSpeed = 0.7f; // Velocidad de desvanecimiento
 
     private List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>();
     private float currentAlpha = 1.0f; // Opacidad actual
@@ -16,11 +16,11 @@ public class WarningEffect : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             spriteRenderers.Add(transform.GetChild(i).GetComponent<SpriteRenderer>());
-        }   
+        }
     }
 
     private void Update()
-    {   
+    {
         currentAlpha -= fadeSpeed * Time.deltaTime;
         // Go through every spriterenderer and change it's alpha
         for (int i = 0; i < spriteRenderers.Count; i++)
