@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
                 invencibilityFramesCounter = invencibilityFrames;
                 if (lives <= 0)
                 {
-                    lives = 3;
                     Restart();
                 }
                 UpdateHearts();
@@ -146,6 +145,13 @@ public class GameManager : MonoBehaviour
 
         // Reset the timer
         time = 0;
+
+        // Reset the lives
+        lives = 3;
+
+        // Reset the enemy spawner
+        EnemigoSpawner enemySpawner = FindObjectOfType<EnemigoSpawner>();
+        enemySpawner.ResetWaveProperties();
     }
 
     private bool IsOnEnemy()
