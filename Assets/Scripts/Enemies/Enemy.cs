@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class Enemy : MonoBehaviour
 {
 
-    // Hi
     protected float movementSpeed = 0.02f;
     protected float bulletFrequency = 5f; // How often the enemy shoots (seconds)
 
