@@ -26,6 +26,10 @@ public class EnemigoSpawner : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.gameState != GameManager.GameState.Playing)
+        {
+            return;
+        }
         timeOfNextWave -= Time.deltaTime;
 
         if (!isSpawningWave && timeOfNextWave <= 0)

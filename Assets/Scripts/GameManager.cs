@@ -1,7 +1,3 @@
-// TODO perder
-// TODO Puntuacion
-
-
 using UnityEngine;
 
 
@@ -10,6 +6,7 @@ public class GameManager : MonoBehaviour
     private Player player;
     public GameObject playerPrefab;
     public CameraVibration cameraVibration; // Reference to the CameraVibration script  
+    public GameObject floatingMenu; // Reference to the floating menu
 
     public GameObject deadEffectTrianglePrefab; // Prefab of the dead effect triangle
     public float poundRadius = 1.5f;
@@ -18,6 +15,13 @@ public class GameManager : MonoBehaviour
     private int score = 0;
     private int highScore = 0;
     private float time = 0;
+
+    public enum GameState
+    {
+        Playing,
+        StandBy
+    }
+    public static GameState gameState = GameState.StandBy;
 
     public GameObject heartsPrefab;
     public GameObject timerObject;
@@ -59,23 +63,35 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (IsOnEnemy())
+        switch (gameState)
         {
-            if (invencibilityFramesCounter <= 0)
-            {
-                lives--;
-                StartCoroutine(Blink()); // Blink the player while the invencibility frames are active
-                invencibilityFramesCounter = invencibilityFrames;
-                if (lives <= 0)
+            case GameState.Playing:
+
+                floatingMenu.SetActive(false);
+                if (IsOnEnemy())
                 {
-                    Restart();
+                    if (invencibilityFramesCounter <= 0)
+                    {
+                        lives--;
+                        StartCoroutine(Blink()); // Blink the player while the invencibility frames are active
+                        invencibilityFramesCounter = invencibilityFrames;
+                        if (lives <= 0)
+                        {
+                            Restart();
+                        }
+                        UpdateHearts();
+                    }
                 }
-                UpdateHearts();
-            }
+                invencibilityFramesCounter -= Time.deltaTime;
+                time += Time.deltaTime;
+                timerText.text = "Time:\n" + time.ToString("F1");
+
+                break;
+
+            case GameState.StandBy:
+                floatingMenu.SetActive(true);
+                break;
         }
-        invencibilityFramesCounter -= Time.deltaTime;
-        time += Time.deltaTime;
-        timerText.text = "Time:\n" + time.ToString("F1");
     }
 
     private System.Collections.IEnumerator Blink()
@@ -101,8 +117,6 @@ public class GameManager : MonoBehaviour
         // Add a return statement to fulfill all code paths
         yield return null;
     }
-
-
 
     private void UpdateHearts()
     {
@@ -154,6 +168,9 @@ public class GameManager : MonoBehaviour
         // Reset the enemy spawner
         EnemigoSpawner enemySpawner = FindObjectOfType<EnemigoSpawner>();
         enemySpawner.ResetWaveProperties();
+
+        // Change the game state
+        gameState = GameState.StandBy;
     }
 
     private bool IsOnEnemy()
@@ -188,7 +205,7 @@ public class GameManager : MonoBehaviour
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Enemy") || collider.CompareTag("Bullet"))
-            {   
+            {
                 Vector3 enemyPosition = collider.transform.position;
                 // Destroy the GameObject associated with the collider
                 Destroy(collider.gameObject);

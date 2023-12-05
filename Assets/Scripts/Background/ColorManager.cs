@@ -20,6 +20,7 @@ public class ColorManager : MonoBehaviour
         UpdateColorBakground();
         UpdateColorDiceAnimation();
         UpdatePlayButton();
+        UpdateFloatingMenu();
 
         // Update color transition time
         colorTransitionTime += Time.deltaTime;
@@ -35,13 +36,25 @@ public class ColorManager : MonoBehaviour
 
     }
 
+    private void UpdateFloatingMenu()
+    {
+        GameObject floatingMenu = GameObject.Find("FloatingMenu");
+        if (floatingMenu != null)
+        {
+            SpriteRenderer floatingMenuSpriteRenderer = floatingMenu.GetComponent<SpriteRenderer>();
+            floatingMenuSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
+        }
+    }
+
     public void UpdatePlayButton()
     {
         GameObject playButton = GameObject.Find("Play Button");
         if (playButton != null)
         {
+            Color opaqueStartColor = DecreaseSaturation(startColor, 0.5f);
+            Color opaqueEndColor = DecreaseSaturation(endColor, 0.5f);
             SpriteRenderer playButtonSpriteRenderer = playButton.GetComponent<SpriteRenderer>();
-            playButtonSpriteRenderer.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
+            playButtonSpriteRenderer.color = Color.Lerp(opaqueStartColor, opaqueEndColor, colorTransitionTime / colorTransitionDuration);
         }
     }
 
@@ -59,10 +72,8 @@ public class ColorManager : MonoBehaviour
         Color b2 = new Color(startColor.r, startColor.g, startColor.b, 0.2f);
 
         // Multiply saturation of start and end color by 0.8f
-        Color.RGBToHSV(startColor, out float h, out float s, out float v);
-        Color opaqueStartColor = Color.HSVToRGB(h, s * 0.8f, v);
-        Color.RGBToHSV(endColor, out h, out s, out v);
-        Color opaqueEndColor = Color.HSVToRGB(h, s * 0.8f, v);
+        Color opaqueStartColor = DecreaseSaturation(startColor, 0.8f);
+        Color opaqueEndColor = DecreaseSaturation(endColor, 0.8f);
 
         Color b11 = new Color(opaqueEndColor.r, opaqueEndColor.g, opaqueEndColor.b, 1f);
         Color b22 = new Color(opaqueStartColor.r, opaqueStartColor.g, opaqueStartColor.b, 1f);
@@ -174,6 +185,14 @@ public class ColorManager : MonoBehaviour
         );
 
         return vibrantColor;
+    }
+
+    public Color DecreaseSaturation(Color color, float saturation)
+    {
+        // Cambiar la saturación de un color
+        Color.RGBToHSV(color, out float h, out float s, out float v);
+        Color newColor = Color.HSVToRGB(h, s * saturation, v);
+        return newColor;
     }
 
 }

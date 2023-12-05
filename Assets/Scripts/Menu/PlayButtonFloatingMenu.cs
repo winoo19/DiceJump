@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayButton : MonoBehaviour
+public class PlayButtonFloatingMenu : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private Collider2D buttonCollider;
@@ -31,7 +31,7 @@ public class PlayButton : MonoBehaviour
             // If the player clicks the button, move to the next scene
             if (Input.GetMouseButtonDown(0))
             {
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+                GameManager.gameState = GameManager.GameState.Playing;
             }
         }
         else if (isOnButton)
