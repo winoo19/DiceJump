@@ -62,6 +62,16 @@ public class Player : MonoBehaviour
         // Enable the correspondent side and disable the rest
         EnableSide(diceNumber);
         circleRenderer.UpdateRadius(diceNumber * jumpForce);
+
+        // Sound sources
+        musicSourceJump = gameObject.AddComponent<AudioSource>();
+        musicSourceLand = gameObject.AddComponent<AudioSource>();
+
+        musicSourceJump.clip = jumpClip;
+        musicSourceLand.clip = landClip;
+
+        musicSourceJump.loop = false; // Para hacer que la música se reproduzca en bucle
+        musicSourceLand.loop = false; // Para hacer que la música se reproduzca en bucle
     }
 
     // Update (once per frame)
@@ -276,9 +286,6 @@ public class Player : MonoBehaviour
             }
 
             // Play the jump sound
-            musicSourceJump = gameObject.AddComponent<AudioSource>();
-            musicSourceJump.clip = jumpClip;
-            musicSourceJump.loop = false; // Para hacer que la música se reproduzca en bucle
             musicSourceJump.Play();
 
             // Play the jump animation
@@ -299,11 +306,8 @@ public class Player : MonoBehaviour
         if (OnDiceLanded != null)
         {   
             // Play the landing sound
-            musicSourceLand = gameObject.AddComponent<AudioSource>();
-            musicSourceLand.clip = landClip;
-            musicSourceLand.loop = false; // Para hacer que la música se reproduzca en bucle
             musicSourceLand.Play();
-            
+
             circleRendererOnLand.radius = 1f;
             OnDiceLanded(); // Trigger the event indicating the dice has landed
         }
