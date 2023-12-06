@@ -51,7 +51,7 @@ public class DicesBackground : MonoBehaviour
             0);
         // Spawn the dice and set its speed at random
         GameObject newDice = Instantiate(dice, randomPos, Quaternion.identity);
-        newDice.GetComponent<diceMovement>().setSpeed(Random.Range(0.5f, 2f));
+        newDice.GetComponent<diceMovement>().setSpeed(Random.Range(2f, 4f));
     }
 
 

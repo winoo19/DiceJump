@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8756201444421967699
+--- !u!1 &653942201452244456
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5489943057654956058}
-  - component: {fileID: 3049829775806831813}
+  - component: {fileID: 5893283005472865644}
+  - component: {fileID: 8478511899570083606}
   m_Layer: 0
-  m_Name: GeometricDashL1Track
+  m_Name: gameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5489943057654956058
+--- !u!4 &5893283005472865644
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8756201444421967699}
+  m_GameObject: {fileID: 653942201452244456}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.7996073, y: 1.49897, z: -9.849705}
@@ -32,16 +32,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3049829775806831813
+--- !u!114 &8478511899570083606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8756201444421967699}
+  m_GameObject: {fileID: 653942201452244456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 527007c88cbb24382a5aafac37c2ee34, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cbd499f61a6f4d4a97b3d306a25c4e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicClip: {fileID: 8300000, guid: 38d8d6a8f6da8438c9d09f26c84aa934, type: 3}
+  playerPrefab: {fileID: 1771550343422411991, guid: 4048eb0d4dc0c47c1a8d172d4c337636, type: 3}
+  cameraVibration: {fileID: 0}
+  floatingMenu: {fileID: 0}
+  deadEffectTrianglePrefab: {fileID: 2218356079916308803, guid: 3b6153fe81819440687bb7606d36509e, type: 3}
+  poundRadius: 1.3
+  heartsPrefab: {fileID: 0}
+  timerObject: {fileID: 0}
+  scoreObject: {fileID: 0}
+  highScoreObject: {fileID: 0}
+  colorBackground: {fileID: 0}
+  smashSoundClip: {fileID: 8300000, guid: 5884238ae145a4ec2b9dd5cfa43197b8, type: 3}

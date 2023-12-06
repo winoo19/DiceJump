@@ -12,4 +12,18 @@ public class MusicController : MonoBehaviour
         musicSource.loop = true; // Para hacer que la música se reproduzca en bucle
         musicSource.Play();
     }
+
+    void Update()
+    {
+        // Si la música se acaba, la reproducimos de nuevo
+        if (!musicSource.isPlaying)
+        {
+            musicSource.Play();
+        }
+    }
+
+    public void StopMusic()
+    {
+        musicSource.Stop();
+    }
 }

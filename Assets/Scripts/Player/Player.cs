@@ -38,7 +38,12 @@ public class Player : MonoBehaviour
     private SpriteRenderer[] spriteRenderers; // Sprite renderers of the player and its children
     private LineRenderer[] lineRenderers; // Line renderers of the player and its children
     private GameObject[] diceSides; // Sides of the dice
+    
+    public AudioClip jumpClip; // Sound of the jump
+    private AudioSource musicSourceJump; // AudioSource of the jump sound
 
+    public AudioClip landClip; // Sound of the landing
+    private AudioSource musicSourceLand; // AudioSource of the landing sound
     // Initialization
     private void Start()
     {
@@ -57,6 +62,16 @@ public class Player : MonoBehaviour
         // Enable the correspondent side and disable the rest
         EnableSide(diceNumber);
         circleRenderer.UpdateRadius(diceNumber * jumpForce);
+
+        // Sound sources
+        musicSourceJump = gameObject.AddComponent<AudioSource>();
+        musicSourceLand = gameObject.AddComponent<AudioSource>();
+
+        musicSourceJump.clip = jumpClip;
+        musicSourceLand.clip = landClip;
+
+        musicSourceJump.loop = false; // Para hacer que la música se reproduzca en bucle
+        musicSourceLand.loop = false; // Para hacer que la música se reproduzca en bucle
     }
 
     // Update (once per frame)
@@ -270,6 +285,9 @@ public class Player : MonoBehaviour
                 lr.enabled = false;
             }
 
+            // Play the jump sound
+            musicSourceJump.Play();
+
             // Play the jump animation
             jumpAnimation = Instantiate(jumpAnimationPrefab, transform.position, Quaternion.identity);
             Rotator jumpAnimationScript = jumpAnimation.GetComponent<Rotator>();
@@ -287,6 +305,9 @@ public class Player : MonoBehaviour
         // After the jump animation or landing, call the method that indicates the dice has landed
         if (OnDiceLanded != null)
         {   
+            // Play the landing sound
+            musicSourceLand.Play();
+
             circleRendererOnLand.radius = 1f;
             OnDiceLanded(); // Trigger the event indicating the dice has landed
         }
