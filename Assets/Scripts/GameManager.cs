@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
 
     private int lives = 3;
     private int score = 0;
-    private int highScore = 0;
+    private int normalHighScore = 0;
+    private int hardcorelHighScore = 0;
     private float time = 0;
 
     public enum GameState
@@ -29,8 +30,10 @@ public class GameManager : MonoBehaviour
     private TMPro.TextMeshProUGUI timerText;
     public GameObject scoreObject;
     private TMPro.TextMeshProUGUI scoreText;
-    public GameObject highScoreObject;
-    private TMPro.TextMeshProUGUI highScoreText;
+    public GameObject normalHighScoreObject;
+    private TMPro.TextMeshProUGUI normalHighScoreText;
+    public GameObject hardcoreHighScoreObject;
+    private TMPro.TextMeshProUGUI hardcoreHighScoreText;
 
     private float invencibilityFrames = 1.5f;
     private float invencibilityFramesCounter = 0;
@@ -50,10 +53,12 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         timerText = timerObject.GetComponent<TMPro.TextMeshProUGUI>();
         scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
-        highScoreText = highScoreObject.GetComponent<TMPro.TextMeshProUGUI>();
+        normalHighScoreText = normalHighScoreObject.GetComponent<TMPro.TextMeshProUGUI>();
+        hardcoreHighScoreText = hardcoreHighScoreObject.GetComponent<TMPro.TextMeshProUGUI>();
 
         scoreText.text = "Score:\n" + score;
-        highScoreText.text = "High Score:\n" + highScore;
+        normalHighScoreText.text = "Normal\nHigh Score:\n" + normalHighScore;
+        hardcoreHighScoreText.text = "Hardcore\nHigh Score:\n" + hardcorelHighScore;
     }
 
     private void OnEnable()
@@ -158,8 +163,16 @@ public class GameManager : MonoBehaviour
         player.Reset();
 
         // Update the high score
-        highScore = Mathf.Max(highScore, score);
-        highScoreText.text = "High Score:\n" + highScore;
+        if (gameState == GameState.Normal)
+        {
+            normalHighScore = Mathf.Max(normalHighScore, score);
+            normalHighScoreText.text = "Normal\nHigh Score:\n" + normalHighScore;
+        }
+        else if (gameState == GameState.Hardcore)
+        {
+            hardcorelHighScore = Mathf.Max(hardcorelHighScore, score);
+            hardcoreHighScoreText.text = "Hardcore\nHigh Score:\n" + hardcorelHighScore;
+        }
 
         // Reset the score
         score = 0;

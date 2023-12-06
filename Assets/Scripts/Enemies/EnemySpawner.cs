@@ -104,9 +104,12 @@ public class EnemigoSpawner : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f); // Wait 1.5 seconds before spawning the enemies
 
-        foreach (GameObject effect in currentSpawnEffects)
+        if (GameManager.gameState != GameManager.GameState.StandBy)
         {
-            SpawnEnemy(effect);
+            foreach (GameObject effect in currentSpawnEffects)
+            {
+                SpawnEnemy(effect);
+            }
         }
 
         foreach (GameObject effect in currentSpawnEffects)
