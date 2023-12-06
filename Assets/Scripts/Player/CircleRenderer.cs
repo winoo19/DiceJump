@@ -28,12 +28,11 @@ public class CircleRenderer : MonoBehaviour
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
         }
 
-        // Asegurémonos de que el último punto sea igual al primero para cerrar el círculo
+        // Close the circle
         lineRenderer.SetPosition(points - 1, lineRenderer.GetPosition(0));
     }
 
-    // Change the opacity of the line depending on the time since
-    // the last jump, to indicate that the player can jump again
+    // Change the opacity to indicate the player can jump again
     public void ChangeOpacity(float opacity)
     {
         Color c = lineRenderer.startColor;
