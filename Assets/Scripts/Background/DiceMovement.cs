@@ -2,27 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Dice of the background that move around
 public class diceMovement : MonoBehaviour
 {
 
-    private float speed; // Speed of the dice
-    private float rotationSpeed = 0.05f; // Speed of the dice rotation
+    private float speed;
+    private float rotationSpeed = 0.05f;
 
     private BoxCollider2D gameBorderCollider; // Limits of the game
 
-    // Start is called before the first frame update
     void Start()
     {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Move the dice upwards very slowly
+        // Move the dice upwards very slowly and rotate it
         transform.position += Vector3.up * speed * Time.deltaTime;
 
-        // Rotate the dice 
         transform.Rotate(0, 0, rotationSpeed);
 
         // If the dice is outside the game limits, destroy it

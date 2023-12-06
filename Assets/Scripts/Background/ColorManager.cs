@@ -5,16 +5,16 @@ public class ColorManager : MonoBehaviour
 {
     private static ColorManager instance;
 
-    private Color startColor = Color.red; // Color inicial
-    private Color endColor = Color.blue; // Color final
-    private float colorTransitionDuration = 5.0f; // Duración de la transición de color
-    private float colorTransitionTime = 0f; // Tiempo actual de transición de color
+    private Color startColor = Color.red; 
+    private Color endColor = Color.blue;
+    private float colorTransitionDuration = 5.0f;
+    private float colorTransitionTime = 0f;
 
-    public GameObject background; // Referencia al background
+    public GameObject background; // Background GameObject (parent of the background squares)
 
     private void Update()
     {
-        // Actualizar el color de los enemigos
+        // Update color of objects in the scene
         UpdateColorPlayer();
         UpdateColorEnemies();
         UpdateColorBakground();
@@ -22,7 +22,6 @@ public class ColorManager : MonoBehaviour
         UpdatePlayButton();
         UpdateFloatingMenu();
 
-        // Update color transition time
         colorTransitionTime += Time.deltaTime;
 
         // Restart the transition if it has ended
@@ -65,30 +64,21 @@ public class ColorManager : MonoBehaviour
         SpriteRenderer backgroundSpriteRenderer1 = background.transform.GetChild(1).GetComponent<SpriteRenderer>();
         SpriteRenderer backgroundSpriteRenderer2 = background.transform.GetChild(2).GetComponent<SpriteRenderer>();
 
-        // It's color is going to be completely the opposite of the player and the enemies color
-        // Cogemos el color contrario del jugador
-
+        // Get the opposite color of the start and end color (background has a different color than the other objects)
         Color b1 = new Color(endColor.r, endColor.g, endColor.b, 0.2f);
         Color b2 = new Color(startColor.r, startColor.g, startColor.b, 0.2f);
 
-        // Multiply saturation of start and end color by 0.8f
+        // Opaque color for the side squares of the background
         Color opaqueStartColor = DecreaseSaturation(startColor, 0.8f);
         Color opaqueEndColor = DecreaseSaturation(endColor, 0.8f);
-
         Color b11 = new Color(opaqueEndColor.r, opaqueEndColor.g, opaqueEndColor.b, 1f);
         Color b22 = new Color(opaqueStartColor.r, opaqueStartColor.g, opaqueStartColor.b, 1f);
+
+        // Apply the color transition to the background squares
         backgroundSpriteRenderer.color = Color.Lerp(b2, b1, colorTransitionTime / colorTransitionDuration);
         backgroundSpriteRenderer1.color = Color.Lerp(b22, b11, colorTransitionTime / colorTransitionDuration);
         backgroundSpriteRenderer2.color = Color.Lerp(b22, b11, colorTransitionTime / colorTransitionDuration);
     }
-
-    public Color GetOppositeColor(Color color)
-    {
-        // Calcular el color opuesto invirtiendo los componentes RGB
-        Color oppositeColor = new Color(1f - color.r, 1f - color.g, 1f - color.b);
-        return oppositeColor;
-    }
-
 
     public void UpdateColorPlayer()
     {
@@ -107,17 +97,14 @@ public class ColorManager : MonoBehaviour
 
     public void UpdateColorEnemies()
     {
-        // Obtener los enemigos en la escena
         List<GameObject> enemies = GetEnemies();
 
-        // Para cada enemigo, obtener sus círculos hijos y cambiar su color
         foreach (GameObject enemy in enemies)
         {
-            // Obtener los círculos hijos para luego obtener sus SpriteRenderer
+            // Change color of each child of the enemy (each one with different alpha)
             List<GameObject> circles = GetCircles(enemy);
             List<SpriteRenderer> circlesSpriteRenderer = GetCirclesSpriteRenderer(circles);
 
-            // Cambiar el color de los círculos
             for (int i = 0; i < circlesSpriteRenderer.Count; i++)
             {
                 Color c1 = new Color(startColor.r, startColor.g, startColor.b, startColor.a - (i * 0.15f));
@@ -129,13 +116,10 @@ public class ColorManager : MonoBehaviour
 
     private void UpdateColorDiceAnimation()
     {
-        //
-        GameObject cubeAnimation = GameObject.FindGameObjectWithTag("CubeAnimation"); // Find the GameObject representing the dice
+        GameObject cubeAnimation = GameObject.FindGameObjectWithTag("CubeAnimation");
 
         if (cubeAnimation != null)
         {
-
-            // Get its material and change its color gradually
             Material cubeAnimationMaterial = cubeAnimation.GetComponent<Renderer>().material;
             cubeAnimationMaterial.color = Color.Lerp(startColor, endColor, colorTransitionTime / colorTransitionDuration);
         }
@@ -143,6 +127,7 @@ public class ColorManager : MonoBehaviour
 
     private List<GameObject> GetEnemies()
     {
+        // Get all the enemies in the scene
         List<GameObject> enemies = new List<GameObject>();
         enemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 
@@ -151,6 +136,7 @@ public class ColorManager : MonoBehaviour
 
     private List<GameObject> GetCircles(GameObject enemy)
     {
+        // Get the circles of the enemy (children of the enemy)
         List<GameObject> circles = new List<GameObject>();
         for (int i = 0; i < enemy.transform.childCount; i++)
         {
@@ -162,6 +148,7 @@ public class ColorManager : MonoBehaviour
 
     private List<SpriteRenderer> GetCirclesSpriteRenderer(List<GameObject> circles)
     {
+        // Get the sprite renderer of each circle
         List<SpriteRenderer> circlesSpriteRenderer = new List<SpriteRenderer>();
         foreach (GameObject circle in circles)
         {
@@ -171,25 +158,9 @@ public class ColorManager : MonoBehaviour
         return circlesSpriteRenderer;
     }
 
-
-    public Color GetVibrantColor(Color color)
-    {
-        // Incrementar los componentes RGB para obtener un color más vibrante
-        float increaseValue = 0.3f; // Valor de incremento, puedes ajustarlo según tus necesidades
-
-        Color vibrantColor = new Color(
-            Mathf.Clamp(color.r + increaseValue, 0f, 1f), // Asegura que el valor esté dentro del rango 0-1
-            Mathf.Clamp(color.g + increaseValue, 0f, 1f),
-            Mathf.Clamp(color.b + increaseValue, 0f, 1f),
-            color.a
-        );
-
-        return vibrantColor;
-    }
-
     public Color DecreaseSaturation(Color color, float saturation)
     {
-        // Cambiar la saturación de un color
+        // Decrease the saturation of a color
         Color.RGBToHSV(color, out float h, out float s, out float v);
         Color newColor = Color.HSVToRGB(h, s * saturation, v);
         return newColor;
