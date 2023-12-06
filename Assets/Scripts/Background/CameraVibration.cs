@@ -6,13 +6,13 @@ public class CameraVibration : MonoBehaviour
     [SerializeField] private float vibrationDuration = 0.2f;
 
     private bool isVibrating = false;
-    private float vibrationTimer = 0f;
+    private float vibrationTimer = 0f;  // Timer for the vibration
 
-    private Vector3 originalPosition;
+    private Vector3 originalPosition; // Original position of the camera
 
     private void Start()
     {
-        originalPosition = transform.localPosition;
+        originalPosition = transform.localPosition; // Store the original position of the camera
     }
 
     void Update()
@@ -21,16 +21,15 @@ public class CameraVibration : MonoBehaviour
         {
             if (vibrationTimer > 0)
             {
-                // Generar una vibración aleatoria en la posición de la cámara
+                // Move the camera to a random position inside a sphere of radius vibrationIntensity
                 Vector3 vibration = Random.insideUnitSphere * vibrationIntensity;
                 transform.localPosition += vibration;
 
-                // Reduce el temporizador de la vibración
                 vibrationTimer -= Time.deltaTime;
             }
             else
             {
-                // La vibración ha terminado, restablecer la posición original de la cámara
+                // Reset the camera position
                 transform.localPosition = originalPosition;
                 isVibrating = false;
             }
@@ -39,7 +38,7 @@ public class CameraVibration : MonoBehaviour
 
     public void TriggerCameraVibration()
     {
-        // Comenzar la vibración de la cámara al recibir el evento
+        // Trigger the camera vibration
         isVibrating = true;
         vibrationTimer = vibrationDuration;
     }

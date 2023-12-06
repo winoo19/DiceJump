@@ -5,18 +5,15 @@ using UnityEngine;
 public class SpandingWave : MonoBehaviour
 {
     public int points = 50; // Number of points in the circle
-    private float lineWidth = 0.02f; // Line width
-
+    private float lineWidth = 0.02f;
     private LineRenderer lineRenderer;
-
-    private float actualRadius = 0f;
-
-    private float objectiveRadius = 1f;
-
-    private float speed = 5f;
+    private float actualRadius = 0f; // Actual radius of the circle
+    private float objectiveRadius = 1f; // Radius of the circle when it will be destroyed
+    private float speed = 5f; // Speed of the radius increment
 
     void Awake()
     {
+        // Get the LineRenderer component and set its properties
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = points;
         lineRenderer.useWorldSpace = false;
@@ -52,7 +49,7 @@ public class SpandingWave : MonoBehaviour
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
         }
 
-        // Asegurémonos de que el último punto sea igual al primero para cerrar el círculo
+        // Set the last point of the circle to the first point (to close the circle)
         lineRenderer.SetPosition(points - 1, lineRenderer.GetPosition(0));
     }
 }

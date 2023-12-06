@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 public class EnemigoSpawner : MonoBehaviour
 {
-    public GameObject[] enemyPrefabs; // Lista de prefabs de enemigos
-    public GameObject spawnEffectPrefab; // Prefab del efecto de aparición
+    public GameObject[] enemyPrefabs;  // List of enemy prefabs
+    public GameObject spawnEffectPrefab; // Effect when spawning an enemy
 
-    private int waveCount = 0; // Contador de oleadas
-    private int enemiesPerWave; // Cantidad de enemigos por oleada
-    private float spawnDelay; // Tiempo entre oleadas
+    private int waveCount = 0;
+    private int enemiesPerWave;
+    private float spawnDelay; // Time between waves
 
     private float timeOfNextWave;
     private bool isSpawningWave = false;
-    private GameObject[] currentSpawnEffects; // Lista de efectos de aparición de enemigos
+    private GameObject[] currentSpawnEffects;  // Effects before spawning the enemies
 
     private BoxCollider2D gameBorderCollider; // Limits of the game
 
@@ -42,7 +42,7 @@ public class EnemigoSpawner : MonoBehaviour
     private void Start()
     {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
-        timeOfNextWave = 0f; // Comenzar con la primera oleada inmediatamente
+        timeOfNextWave = 0f;
         settings.Add(GameManager.GameState.Normal, normalSettings);
         settings.Add(GameManager.GameState.Hardcore, hardcoreSettings);
     }
@@ -74,10 +74,9 @@ public class EnemigoSpawner : MonoBehaviour
         isSpawningWave = true;
         currentSpawnEffects = new GameObject[enemiesPerWave];
 
-        // Generar y almacenar los tres efectos de aparición al mismo tiempo
+        // Spawn the warning effects at random positions inside the game limits
         for (int i = 0; i < enemiesPerWave; i++)
         {
-            // We can only spawn enemies inside the game border
             Vector3 randomPos = new Vector3(Random.Range(gameBorderCollider.bounds.min.x, gameBorderCollider.bounds.max.x),
                                             Random.Range(gameBorderCollider.bounds.min.y, gameBorderCollider.bounds.max.y),
                                             0)
@@ -88,6 +87,7 @@ public class EnemigoSpawner : MonoBehaviour
             currentSpawnEffects[i] = Instantiate(spawnEffectPrefab, randomPos, Quaternion.identity);
         }
 
+        // Spawn the enemies after a delay
         StartCoroutine(SpawnEnemiesWithDelay());
         UpdateWaveProperties();
     }
@@ -102,7 +102,7 @@ public class EnemigoSpawner : MonoBehaviour
 
     private System.Collections.IEnumerator SpawnEnemiesWithDelay()
     {
-        yield return new WaitForSeconds(1.5f); // Esperar un segundo antes de spawneando los enemigos
+        yield return new WaitForSeconds(1.5f); // Wait 1.5 seconds before spawning the enemies
 
         foreach (GameObject effect in currentSpawnEffects)
         {
@@ -111,7 +111,7 @@ public class EnemigoSpawner : MonoBehaviour
 
         foreach (GameObject effect in currentSpawnEffects)
         {
-            Destroy(effect); // Eliminar los efectos de aparición después de generar los enemigos
+            Destroy(effect); // Destroy warning effect after spawning the enemy
         }
 
         isSpawningWave = false;
@@ -127,7 +127,7 @@ public class EnemigoSpawner : MonoBehaviour
     {
         waveCount++;
 
-        if (waveCount % settings[GameManager.gameState]["enemyIncrease"] == 0) // Añadir un enemigo por oleada
+        if (waveCount % settings[GameManager.gameState]["enemyIncrease"] == 0) // Add 1 enemy per wave
         {
             enemiesPerWave += 1;
         }

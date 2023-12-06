@@ -19,8 +19,7 @@ public class DicesBackground : MonoBehaviour
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
         currentTimer = spawnDelay;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (currentTimer >= spawnDelay)
