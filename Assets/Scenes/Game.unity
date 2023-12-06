@@ -1224,7 +1224,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1326308119}
-  - component: {fileID: 1326308118}
   - component: {fileID: 1326308117}
   m_Layer: 0
   m_Name: FloatingMenu
@@ -1285,18 +1284,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1326308118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326308116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ccdabef130604017b5ee9c733b242b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1326308119
 Transform:
   m_ObjectHideFlags: 0
