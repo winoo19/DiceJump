@@ -77,6 +77,10 @@ public class GameManager : MonoBehaviour
                         invencibilityFramesCounter = invencibilityFrames;
                         if (lives <= 0)
                         {
+                            // Play game over sound
+                            FindObjectOfType<MusicController2>().StopMusic();
+                            FindObjectOfType<MusicController2>().PlayGameOverSound();
+                            // Change the game state
                             Restart();
                         }
                         UpdateHearts();
@@ -168,9 +172,6 @@ public class GameManager : MonoBehaviour
         // Reset the enemy spawner
         EnemigoSpawner enemySpawner = FindObjectOfType<EnemigoSpawner>();
         enemySpawner.ResetWaveProperties();
-
-        // Stop music
-        FindObjectOfType<MusicController2>().StopMusic();
 
         // Change the game state
         gameState = GameState.StandBy;

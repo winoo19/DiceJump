@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicClip: {fileID: 8300000, guid: 487a8d9974ad74f1fa47e27be43b574a, type: 3}
+  gameOverClip: {fileID: 8300000, guid: 545e1454b3b4c4e1786d077a53970331, type: 3}

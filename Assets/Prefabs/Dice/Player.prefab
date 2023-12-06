@@ -817,6 +817,8 @@ MonoBehaviour:
   rotationSpeed: 10
   jumpAnimationPrefab: {fileID: 7611940349957679692, guid: 6d613a340cb5b4a889e5a18e88e56abd, type: 3}
   jumpAnimation: {fileID: 0}
+  jumpClip: {fileID: 8300000, guid: 9d835db5f35004cb597d04f30fd5a906, type: 3}
+  landClip: {fileID: 8300000, guid: a64e9f68d84cb451b81cca61745756c0, type: 3}
 --- !u!50 &1238466855561264229
 Rigidbody2D:
   serializedVersion: 4
