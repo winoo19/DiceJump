@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class MusicController2 : MonoBehaviour
 {
-    public AudioClip musicClip; // Asegúrate de asignar tu archivo de música a esta variable en el Inspector
-    private AudioSource musicSource;
-
-    public AudioClip gameOverClip; // Asegúrate de asignar tu archivo de música a esta variable en el Inspector
+    public AudioClip musicClip; // Music file for the game (StayInsideMe.mp3)
+    private AudioSource musicSource; // AudioSource component of the game object
+    public AudioClip gameOverClip; // Music file for the game over (GameOver.mp3)
 
     void Start()
     {
