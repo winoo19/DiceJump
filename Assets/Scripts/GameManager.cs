@@ -169,6 +169,9 @@ public class GameManager : MonoBehaviour
         EnemigoSpawner enemySpawner = FindObjectOfType<EnemigoSpawner>();
         enemySpawner.ResetWaveProperties();
 
+        // Stop music
+        FindObjectOfType<MusicController2>().StopMusic();
+
         // Change the game state
         gameState = GameState.StandBy;
     }
