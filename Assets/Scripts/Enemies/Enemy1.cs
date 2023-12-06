@@ -37,6 +37,7 @@ public class EnemyType1 : Enemy
         return gameBorderCollider.bounds.Contains(transform.position + (Vector3)movement);
     }
 
+    // If the movement would get the enemy out of the borders, return the movement that keeps it inside the borders
     private Vector2 GetMovementInsideBorders(Vector2 movement)
     {
         Vector2 movementInsideBorders = movement;

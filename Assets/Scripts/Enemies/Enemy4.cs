@@ -14,10 +14,8 @@ public class EnemyType4 : Enemy
     {
         // Move the enemy
         moveDirection = Vector3.zero;
-        // transform.Translate(moveDirection * movementSpeed);
 
-        // this one moves towards the dice but rotates very slowly
-        // and doesnt' rotate to look at the dice, 
+        // Rotate the enemy
         transform.Rotate(Vector3.forward * Time.deltaTime * 10f);
     }
 
@@ -27,7 +25,7 @@ public class EnemyType4 : Enemy
         GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet.GetComponent<bulletMovement>().SetDirection(transform.up);
 
-        // Shot another bullet in the opposite direction
+        // Shoot another bullet in the opposite direction
         GameObject bullet2 = Instantiate(bulletPrefab, transform.position, transform.rotation);
         bullet2.GetComponent<bulletMovement>().SetDirection(-transform.up);
     }

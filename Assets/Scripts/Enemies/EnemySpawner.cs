@@ -3,25 +3,22 @@ using UnityEngine;
 public class EnemigoSpawner : MonoBehaviour
 {
     private const int initialEnemiesPerWave = 3;
-    public GameObject[] enemyPrefabs; // Lista de prefabs de enemigos
-    public GameObject spawnEffectPrefab; // Prefab del efecto de aparición
-
-    private int waveCount = 0; // Contador de oleadas
-    private int enemiesPerWave = initialEnemiesPerWave; // Cantidad de enemigos por oleada inicial
-    private float initialSpawnDelay = 8f; // Tiempo inicial entre oleadas
-    private const float spawnDelayDecrease = 0.5f; // Reducción de tiempo entre oleadas
-    private const float minSpawnDelay = 5f; // Tiempo mínimo entre oleadas
-
-    private float timeOfNextWave;
-    private bool isSpawningWave = false;
-    private GameObject[] currentSpawnEffects; // Lista de efectos de aparición de enemigos
-
+    public GameObject[] enemyPrefabs; // List of enemy prefabs
+    private GameObject[] currentSpawnEffects; // Effects before spawning the enemies
+    public GameObject spawnEffectPrefab; // Effect when spawning an enemy
+    private int waveCount = 0; // Counter of waves
+    private int enemiesPerWave = initialEnemiesPerWave; // Number of enemies per wave
+    private float initialSpawnDelay = 8f; // Initial time between waves 
+    private const float spawnDelayDecrease = 0.5f; // Decrease of time between waves
+    private const float minSpawnDelay = 5f; // Minimum time between waves
+    private float timeOfNextWave; // Time until the next wave
+    private bool isSpawningWave = false; // True if the wave is being spawned
     private BoxCollider2D gameBorderCollider; // Limits of the game
 
     private void Start()
     {
         gameBorderCollider = GameObject.Find("GameBorder").GetComponent<BoxCollider2D>();
-        timeOfNextWave = 0f; // Comenzar con la primera oleada inmediatamente
+        timeOfNextWave = 0f;
     }
 
     private void Update()
@@ -43,10 +40,9 @@ public class EnemigoSpawner : MonoBehaviour
         isSpawningWave = true;
         currentSpawnEffects = new GameObject[enemiesPerWave];
 
-        // Generar y almacenar los tres efectos de aparición al mismo tiempo
+        // Spawn the warning effects at random positions inside the game limits
         for (int i = 0; i < enemiesPerWave; i++)
         {
-            // We can only spawn enemies inside the game border
             Vector3 randomPos = new Vector3(Random.Range(gameBorderCollider.bounds.min.x, gameBorderCollider.bounds.max.x),
                                             Random.Range(gameBorderCollider.bounds.min.y, gameBorderCollider.bounds.max.y),
                                             0);
@@ -55,6 +51,7 @@ public class EnemigoSpawner : MonoBehaviour
             currentSpawnEffects[i] = Instantiate(spawnEffectPrefab, randomPos, Quaternion.identity);
         }
 
+        // Spawn the enemies after a delay
         StartCoroutine(SpawnEnemiesWithDelay());
         UpdateWaveProperties();
     }
@@ -69,7 +66,7 @@ public class EnemigoSpawner : MonoBehaviour
 
     private System.Collections.IEnumerator SpawnEnemiesWithDelay()
     {
-        yield return new WaitForSeconds(1.5f); // Esperar un segundo antes de spawneando los enemigos
+        yield return new WaitForSeconds(1.5f); // Wait 1.5 seconds before spawning the enemies
 
         foreach (GameObject effect in currentSpawnEffects)
         {
@@ -78,7 +75,7 @@ public class EnemigoSpawner : MonoBehaviour
 
         foreach (GameObject effect in currentSpawnEffects)
         {
-            Destroy(effect); // Eliminar los efectos de aparición después de generar los enemigos
+            Destroy(effect); // Destroy warning effect after spawning the enemy
         }
 
         isSpawningWave = false;
@@ -94,12 +91,13 @@ public class EnemigoSpawner : MonoBehaviour
     {
         waveCount++;
 
-        if (waveCount % 4 == 0) // Cada 5 oleadas aumenta la cantidad de enemigos por oleada
+        if (waveCount % 4 == 0) // Increase the number of enemies per wave every 4 waves
         {
             enemiesPerWave += 1;
         }
 
-        initialSpawnDelay = Mathf.Max(initialSpawnDelay - spawnDelayDecrease, minSpawnDelay); // Reduce el tiempo entre oleadas
+        // Decrease the time between waves
+        initialSpawnDelay = Mathf.Max(initialSpawnDelay - spawnDelayDecrease, minSpawnDelay);
         timeOfNextWave = initialSpawnDelay;
     }
 }

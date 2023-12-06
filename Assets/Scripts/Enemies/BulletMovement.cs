@@ -11,7 +11,7 @@ public class bulletMovement : MonoBehaviour
 
     private BoxCollider2D gameBorderCollider; // Limits of the game
 
-    public GameObject spandingWavePrefab; // Prefab of the spanding wave
+    public GameObject spandingWavePrefab; // Prefab of the spanding wave (when the bullet is destroyed)
 
 
     private void Start()
@@ -21,13 +21,11 @@ public class bulletMovement : MonoBehaviour
 
     public void SetDirection(Vector3 direction)
     {
-        // Set the direction of the bullet
         this.direction = direction;
     }
 
     public void SetBulletMovementSpeed(float bulletMovementSpeed)
     {
-        // Set the speed of the bullet
         this.bulletMovementSpeed = bulletMovementSpeed;
     }
 
@@ -40,7 +38,6 @@ public class bulletMovement : MonoBehaviour
         CheckIfOutOfBounds();
     }
 
-    // when the bullet reaches the border of the game, destroy it
     private void CheckIfOutOfBounds()
     {
         if (transform.position.x < gameBorderCollider.bounds.min.x - 0.4 ||
@@ -48,7 +45,7 @@ public class bulletMovement : MonoBehaviour
             transform.position.y < gameBorderCollider.bounds.min.y - 0.4 ||
             transform.position.y > gameBorderCollider.bounds.max.y + 0.4)
         {
-            // Antes de destrozar el gameobject, spawneamos un spanding wave en la posición del gameobject
+            // Spawn the spanding wave and destroy the bullet
             Instantiate(spandingWavePrefab, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
