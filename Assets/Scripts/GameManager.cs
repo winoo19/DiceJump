@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
 
     public enum GameState
     {
-        Playing,
+        Normal,
+        Hardcore,
         StandBy
     }
     public static GameState gameState = GameState.StandBy;
@@ -71,40 +72,31 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        switch (gameState)
+        if (gameState != GameState.StandBy)
         {
-            case GameState.Playing:
-
-                floatingMenu.SetActive(false);
-                if (IsOnEnemy())
+            if (IsOnEnemy())
+            {
+                if (invencibilityFramesCounter <= 0)
                 {
-                    if (invencibilityFramesCounter <= 0)
+                    lives--;
+                    // Play the sound when the player is hit
+                    smashSoundSource.Play();
+                    StartCoroutine(Blink()); // Blink the player while the invencibility frames are active
+                    invencibilityFramesCounter = invencibilityFrames;
+                    if (lives <= 0)
                     {
-                        lives--;
-                        // Play the sound when the player is hit
-                        smashSoundSource.Play();
-                        StartCoroutine(Blink()); // Blink the player while the invencibility frames are active
-                        invencibilityFramesCounter = invencibilityFrames;
-                        if (lives <= 0)
-                        {
-                            // Play game over sound
-                            FindObjectOfType<MusicController2>().StopMusic();
-                            FindObjectOfType<MusicController2>().PlayGameOverSound();
-                            // Change the game state
-                            Restart();
-                        }
-                        UpdateHearts();
+                        // Play game over sound
+                        FindObjectOfType<MusicController2>().StopMusic();
+                        FindObjectOfType<MusicController2>().PlayGameOverSound();
+                        // Change the game state
+                        Restart();
                     }
+                    UpdateHearts();
                 }
-                invencibilityFramesCounter -= Time.deltaTime;
-                time += Time.deltaTime;
-                timerText.text = "Time:\n" + time.ToString("F1");
-
-                break;
-
-            case GameState.StandBy:
-                floatingMenu.SetActive(true);
-                break;
+            }
+            invencibilityFramesCounter -= Time.deltaTime;
+            time += Time.deltaTime;
+            timerText.text = "Time:\n" + time.ToString("F1");
         }
     }
 
@@ -179,12 +171,9 @@ public class GameManager : MonoBehaviour
         // Reset the lives
         lives = 3;
 
-        // Reset the enemy spawner
-        EnemigoSpawner enemySpawner = FindObjectOfType<EnemigoSpawner>();
-        enemySpawner.ResetWaveProperties();
-
         // Change the game state
         gameState = GameState.StandBy;
+        floatingMenu.SetActive(true);
     }
 
     private bool IsOnEnemy()
@@ -269,5 +258,17 @@ public class GameManager : MonoBehaviour
             square2.GetComponent<SpriteRenderer>().color = color;
             yield return null;
         }
+    }
+
+    public void ChangeGameStateNormal()
+    {
+        gameState = GameState.Normal;
+        floatingMenu.SetActive(false);
+    }
+
+    public void ChangeGameStateHardcore()
+    {
+        gameState = GameState.Hardcore;
+        floatingMenu.SetActive(false);
     }
 }
