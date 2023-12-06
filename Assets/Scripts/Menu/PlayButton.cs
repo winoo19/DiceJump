@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class PlayButton : MonoBehaviour
 {
-    private SpriteRenderer spriteRenderer;
-    private Collider2D buttonCollider;
-
-    public Texture2D clickedSprite;
-    public Texture2D nonClickedSprite;
-
-    private bool isOnButton = false;
+    private SpriteRenderer spriteRenderer; // there will be 2 sprites(click and non-click)
+    public Texture2D clickedSprite; // texture for the clicked button
+    public Texture2D nonClickedSprite; // texture for the non-clicked button
+    private bool isOnButton = false; // true if the mouse is on the button
 
     private void Start()
     {
