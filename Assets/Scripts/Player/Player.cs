@@ -70,8 +70,8 @@ public class Player : MonoBehaviour
         musicSourceJump.clip = jumpClip;
         musicSourceLand.clip = landClip;
 
-        musicSourceJump.loop = false; // Para hacer que la música se reproduzca en bucle
-        musicSourceLand.loop = false; // Para hacer que la música se reproduzca en bucle
+        musicSourceJump.loop = false;
+        musicSourceLand.loop = false;
     }
 
     // Update (once per frame)

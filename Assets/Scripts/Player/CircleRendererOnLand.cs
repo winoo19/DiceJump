@@ -53,7 +53,7 @@ public class CircleRendererOnLand : MonoBehaviour
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
         }
 
-        // Asegurémonos de que el último punto sea igual al primero para cerrar el círculo
+        // Close the circle
         lineRenderer.SetPosition(points - 1, lineRenderer.GetPosition(0));
     }
 }
