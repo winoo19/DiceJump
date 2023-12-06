@@ -36,8 +36,16 @@ public class GameManager : MonoBehaviour
 
     public GameObject colorBackground; // To blink the background when the player lands
 
+    public AudioClip smashSoundClip; // Sound when player is hit
+    private AudioSource smashSoundSource;
+
     private void Start()
     {
+        smashSoundSource = gameObject.AddComponent<AudioSource>();
+        smashSoundSource.clip = smashSoundClip;
+        // Subimos el volumen del sonido
+        smashSoundSource.volume = 1f;
+
         player = FindObjectOfType<Player>();
         timerText = timerObject.GetComponent<TMPro.TextMeshProUGUI>();
         scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
@@ -73,6 +81,8 @@ public class GameManager : MonoBehaviour
                     if (invencibilityFramesCounter <= 0)
                     {
                         lives--;
+                        // Play the sound when the player is hit
+                        smashSoundSource.Play();
                         StartCoroutine(Blink()); // Blink the player while the invencibility frames are active
                         invencibilityFramesCounter = invencibilityFrames;
                         if (lives <= 0)

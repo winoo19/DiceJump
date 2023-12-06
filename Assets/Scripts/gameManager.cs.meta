@@ -3,7 +3,17 @@ guid: 0cbd499f61a6f4d4a97b3d306a25c4e9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerPrefab: {instanceID: 0}
+  - cameraVibration: {instanceID: 0}
+  - floatingMenu: {instanceID: 0}
+  - deadEffectTrianglePrefab: {instanceID: 0}
+  - heartsPrefab: {instanceID: 0}
+  - timerObject: {instanceID: 0}
+  - scoreObject: {instanceID: 0}
+  - highScoreObject: {instanceID: 0}
+  - colorBackground: {instanceID: 0}
+  - smashSoundClip: {fileID: 8300000, guid: 5884238ae145a4ec2b9dd5cfa43197b8, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
