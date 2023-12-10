@@ -3,8 +3,7 @@
 
 A game where you control a lively dice capable of traversing the screen and leaping distances determined by its face value. But hold on tight - it's not all smooth rolling! Prepare to face spawning enemies intent on your demise, attacking with bullets and aggression. Dodge their assaults skillfully and turn the tables by leaping onto them, earning points with each victorious encounter. Stay agile, as your jumping range changes with every leap, adding an extra layer of challenge to this engaging adventure.
 
-https://github.com/winoo19/DiceJump/assets/112928240/de3eefc1-814e-4655-8686-a932b684297d
-
+https://github.com/winoo19/DiceJump/assets/112928240/a1b697e3-f501-4f24-bc1b-78820cff16be
 
 A dice game made with unity
 
