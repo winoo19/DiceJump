@@ -1,4 +1,5 @@
 # Dicejump!
+### By: Lara Ocón and Daniel Sánchez
 
 A game where you control a lively dice capable of traversing the screen and leaping distances determined by its face value. But hold on tight - it's not all smooth rolling! Prepare to face spawning enemies intent on your demise, attacking with bullets and aggression. Dodge their assaults skillfully and turn the tables by leaping onto them, earning points with each victorious encounter. Stay agile, as your jumping range changes with every leap, adding an extra layer of challenge to this engaging adventure.
 
