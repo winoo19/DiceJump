@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer[] spriteRenderers; // Sprite renderers of the player and its children
     private LineRenderer[] lineRenderers; // Line renderers of the player and its children
     private GameObject[] diceSides; // Sides of the dice
-    
+
     public AudioClip jumpClip; // Sound of the jump
     private AudioSource musicSourceJump; // AudioSource of the jump sound
 
@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
     public void Reset()
     {
         // Reset the player
-        transform.position = Vector3.zero;
+        transform.position = new Vector3(0, -3, 0);
         transform.rotation = Quaternion.identity;
 
         timeSinceLastJump = 0f;
@@ -304,7 +304,7 @@ public class Player : MonoBehaviour
     {
         // After the jump animation or landing, call the method that indicates the dice has landed
         if (OnDiceLanded != null)
-        {   
+        {
             // Play the landing sound
             musicSourceLand.Play();
 

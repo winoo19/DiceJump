@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private Player player;
-    public GameObject playerPrefab;
+    private SpriteRenderer playerSpriteRenderer;
     public CameraVibration cameraVibration; // Reference to the CameraVibration script  
     public GameObject floatingMenu; // Reference to the floating menu
 
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject hardcoreHighScoreObject;
     private TMPro.TextMeshProUGUI hardcoreHighScoreText;
 
-    private float invencibilityFrames = 1.5f;
+    private const float invencibilityFrames = 1.5f;
     private float invencibilityFramesCounter = 0;
 
     public GameObject colorBackground; // To blink the background when the player lands
@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         smashSoundSource.volume = 1f;
 
         player = FindObjectOfType<Player>();
+        playerSpriteRenderer = player.GetComponent<SpriteRenderer>();
         timerText = timerObject.GetComponent<TMPro.TextMeshProUGUI>();
         scoreText = scoreObject.GetComponent<TMPro.TextMeshProUGUI>();
         normalHighScoreText = normalHighScoreObject.GetComponent<TMPro.TextMeshProUGUI>();
@@ -191,7 +192,7 @@ public class GameManager : MonoBehaviour
 
     private bool IsOnEnemy()
     {
-        if (player.jumpAnimation != null)
+        if (player.jumpAnimation != null || playerSpriteRenderer.enabled == false)
         {
             return false;
         }

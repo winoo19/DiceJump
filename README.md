@@ -1,9 +1,5 @@
 # dicejump
 
-
-https://github.com/winoo19/DiceJump/assets/112928240/de3eefc1-814e-4655-8686-a932b684297d
-
-
 A dice game made with unity
 
 ## How to start
